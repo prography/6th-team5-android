@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_home_add"
+        android:title="add"
+        android:icon="@drawable/ic_add_black"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_home_remove"
+        android:title="remove"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_home_setting"
+        android:title="setting"
+        android:icon="@drawable/ic_settings_black"
+        app:showAsAction="always"/>
+</menu>
