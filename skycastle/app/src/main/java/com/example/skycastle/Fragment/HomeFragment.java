@@ -12,15 +12,41 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skycastle.HomeAdapter;
+import com.example.skycastle.HomeItem;
 import com.example.skycastle.R;
 
 public class HomeFragment extends Fragment {
+    private RecyclerView recyclerView;
+    private HomeAdapter homeAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
+
+        recyclerView = (RecyclerView)rootView.findViewById(R.id.home_recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setHasFixedSize(true);
+
+        homeAdapter = new HomeAdapter(getContext());
+        homeAdapter.addItem(new HomeItem("서울대학교", "지역균형선발전형", "2019-09-06"));
+        homeAdapter.addItem(new HomeItem("서울대학교", "일반전형", "2019-11-21"));
+        homeAdapter.addItem(new HomeItem("서울대학교", "기회균형선발특별전형", "2019-12-17"));
+        homeAdapter.addItem(new HomeItem("한양대학교", "지역균형선발전형", "2019-09-06"));
+        homeAdapter.addItem(new HomeItem("한양대학교", "일반전형", "2019-11-21"));
+        homeAdapter.addItem(new HomeItem("한양대학교", "기회균형선발특별전형", "2019-12-17"));
+        homeAdapter.addItem(new HomeItem("연세대학교", "지역균형선발전형", "2019-09-06"));
+        homeAdapter.addItem(new HomeItem("연세대학교", "일반전형", "2019-11-21"));
+        homeAdapter.addItem(new HomeItem("연세대학교", "기회균형선발특별전형", "2019-12-17"));
+
+        recyclerView.setAdapter(homeAdapter);
 
         return rootView;
     }
