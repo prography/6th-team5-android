@@ -1,4 +1,4 @@
-package com.example.skycastle.Fragment;
+package com.example.skycastle.Ui.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.skycastle.HomeAdapter;
 import com.example.skycastle.HomeItem;
 import com.example.skycastle.R;
+import com.example.skycastle.Ui.MainActivity;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment {
                 break;
             case R.id.menu_home_setting:
                 Toast.makeText(getActivity(), "menu_home_setting", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).replaceFragment(new SettingFragment());
                 break;
         }
         return super.onOptionsItemSelected(item);

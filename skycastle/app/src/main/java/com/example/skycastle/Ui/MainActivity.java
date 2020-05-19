@@ -1,4 +1,4 @@
-package com.example.skycastle;
+package com.example.skycastle.Ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -6,11 +6,13 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.skycastle.Fragment.CalendarFragment;
-import com.example.skycastle.Fragment.HomeFragment;
+import com.example.skycastle.R;
+import com.example.skycastle.Ui.Fragment.CalendarFragment;
+import com.example.skycastle.Ui.Fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,12 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment = new HomeFragment();
     private CalendarFragment calendarFragment = new CalendarFragment();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Setting toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,5 +56,10 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment).addToBackStack(null).commit();
     }
 }

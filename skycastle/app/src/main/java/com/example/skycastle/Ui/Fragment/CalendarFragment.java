@@ -1,4 +1,4 @@
-package com.example.skycastle.Fragment;
+package com.example.skycastle.Ui.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
