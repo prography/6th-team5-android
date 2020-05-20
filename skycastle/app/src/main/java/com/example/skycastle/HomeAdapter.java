@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,11 +37,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HomeItem item = items.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        final HomeItem item = items.get(position);
         holder.setItem(item);
 
         holder.setOnItemClickListener(itemClickListener);
+
+        // Check Box Click Listen
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                items.get(position).setSelected(holder.checkBox.isChecked());
+            }
+        });
     }
 
     @Override
@@ -55,10 +65,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         this.items = items;
     }
 
+    public void removeItem() {
+        int removeCount = 0;
+        for (int i=items.size()-1; i>=0; i--) {
+            if (items.get(i).getSelected()) {
+                items.remove(i);
+                ++removeCount;
+            }
+        }
+
+        if (removeCount == 0)
+            Toast.makeText(context, "삭제할 항목을 선택해 주세요", Toast.LENGTH_LONG).show();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView universityTextView;
         TextView applyTypeTextView;
         TextView dayTextView;
+        CheckBox checkBox;
 
         OnItemClickListener itemClickListener;
 
@@ -67,12 +91,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             universityTextView = itemView.findViewById(R.id.universityTextView);
             applyTypeTextView = itemView.findViewById(R.id.applyTypeTextView);
             dayTextView = itemView.findViewById(R.id.dayTextView);
+            checkBox = itemView.findViewById(R.id.checkBox);
         }
 
         public void setItem(HomeItem item) {
             universityTextView.setText(item.getUniversityName());
             applyTypeTextView.setText(item.getApplyType());
             dayTextView.setText(item.getDay());
+            checkBox.setChecked(false);
         }
 
         public void setOnItemClickListener(OnItemClickListener listener) {

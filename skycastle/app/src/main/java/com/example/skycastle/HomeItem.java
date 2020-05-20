@@ -1,14 +1,16 @@
 package com.example.skycastle;
 
 public class HomeItem {
-    String universityName;
-    String applyType;
-    String day;
+    private String universityName;
+    private String applyType;
+    private String day;
+    private Boolean isSelected;
 
     public HomeItem(String un, String an, String dn) {
         setUniversityName(un);
         setApplyType(an);
         setDay(dn);
+        setSelected(false);
     }
 
     public String getUniversityName() {
@@ -33,5 +35,13 @@ public class HomeItem {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
 }

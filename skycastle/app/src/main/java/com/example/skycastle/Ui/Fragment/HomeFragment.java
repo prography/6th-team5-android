@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,9 +71,15 @@ public class HomeFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_home_add:
                 Toast.makeText(getActivity(), "menu_home_add", Toast.LENGTH_SHORT).show();
+                if (homeAdapter.getItemCount() >= 6) {
+                    showLimitAlterDialog();
+                    break;
+                }
                 break;
             case R.id.menu_home_remove:
-                Toast.makeText(getActivity(), "menu_home_remove", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "menu_home_remove", Toast.LENGTH_SHORT).show();
+                homeAdapter.removeItem();
+                homeAdapter.notifyDataSetChanged();
                 break;
             case R.id.menu_home_setting:
                 Toast.makeText(getActivity(), "menu_home_setting", Toast.LENGTH_SHORT).show();
@@ -80,5 +87,12 @@ public class HomeFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showLimitAlterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("경고창").setMessage("6개 이상 추가할 수 없습니다.");
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
