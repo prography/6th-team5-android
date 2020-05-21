@@ -67,8 +67,9 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition() ;
-                    //Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(listData.get(pos).getUrl()));
-                    //context.startActivity(intent);
+                    Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
+
+                    context.startActivity(intent);
                 }
             });
         }

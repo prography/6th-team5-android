@@ -9,11 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectUnivPage"
-            android:theme="@style/customwidget"></activity>
+        <activity android:name=".UnivDetail"></activity>
+        <activity
+            android:name=".SelectUnivPage"
+            android:theme="@style/customwidget" />
         <activity
             android:name=".PolicyPage"
-            android:theme="@style/customwidget"></activity>
+            android:theme="@style/customwidget" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/customwidget">
