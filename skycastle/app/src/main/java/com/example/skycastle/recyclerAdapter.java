@@ -68,7 +68,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                 public void onClick(View v) {
                     int pos = getAdapterPosition() ;
                     Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
-
+                    intent.putExtra("image", listData.get(pos).getLogo());
+                    intent.putExtra("name", listData.get(pos).getName());
                     context.startActivity(intent);
                 }
             });
