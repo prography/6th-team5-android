@@ -38,8 +38,8 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         homeAdapter = new HomeAdapter(getContext());
-        homeAdapter.addItem(new HomeItem("서울대학교", "지역균형선발전형", "2019-09-06"));
-        homeAdapter.addItem(new HomeItem("서울대학교", "일반전형", "2019-11-21"));
+        homeAdapter.addItem(new HomeItem("서울대학교", "지역균형선발전형", "2020-05-23"));
+        homeAdapter.addItem(new HomeItem("서울대학교", "일반전형", "2020-05-21"));
         homeAdapter.addItem(new HomeItem("서울대학교", "기회균형선발특별전형", "2019-12-17"));
         homeAdapter.addItem(new HomeItem("한양대학교", "지역균형선발전형", "2019-09-06"));
         homeAdapter.addItem(new HomeItem("한양대학교", "일반전형", "2019-11-21"));

@@ -1,6 +1,7 @@
 package com.example.skycastle;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private Context context;
@@ -97,12 +100,51 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public void setItem(HomeItem item) {
             universityTextView.setText(item.getUniversityName());
             applyTypeTextView.setText(item.getApplyType());
-            dayTextView.setText(item.getDay());
+            dayTextView.setText(getDday(item.getDay()));
             checkBox.setChecked(false);
         }
 
         public void setOnItemClickListener(OnItemClickListener listener) {
             this.itemClickListener = listener;
+        }
+
+        private String getDday(String targetDay) {
+            int tYear, tMonth, tDay;
+            int dYear, dMonth, dDay;
+
+            // target day
+            String[] targetSlicing = targetDay.split("-");
+            dYear = Integer.parseInt(targetSlicing[0]);
+            dMonth = Integer.parseInt(targetSlicing[1]);
+            dDay = Integer.parseInt(targetSlicing[2]);
+
+            Calendar targetdayCalendar = Calendar.getInstance();
+            targetdayCalendar.clear(Calendar.HOUR);
+            targetdayCalendar.clear(Calendar.MINUTE);
+            targetdayCalendar.clear(Calendar.SECOND);
+            targetdayCalendar.clear(Calendar.MILLISECOND);
+            targetdayCalendar.set(dYear, dMonth, dDay);
+
+            // today
+            Calendar todayCalendar = Calendar.getInstance();
+            todayCalendar.clear(Calendar.HOUR);
+            todayCalendar.clear(Calendar.MINUTE);
+            todayCalendar.clear(Calendar.SECOND);
+            todayCalendar.clear(Calendar.MILLISECOND);
+
+            tYear = todayCalendar.get(Calendar.YEAR);
+            tMonth = todayCalendar.get(Calendar.MONTH);
+            tDay = todayCalendar.get(Calendar.DAY_OF_MONTH);
+            todayCalendar.set(tYear, tMonth+1, tDay);
+
+            long dayDiff = todayCalendar.getTimeInMillis() - targetdayCalendar.getTimeInMillis();
+
+            int resultNumber = (int)(Math.floor(TimeUnit.HOURS.convert(dayDiff, TimeUnit.MILLISECONDS)/24f));
+            if (resultNumber > 0) {
+                return String.format("D+%d", resultNumber);
+            }
+
+            return String.format("D%d", resultNumber);
         }
     }
 }
