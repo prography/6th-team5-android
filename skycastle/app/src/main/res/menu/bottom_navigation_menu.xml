@@ -11,4 +11,10 @@
         android:enabled="true"
         android:icon="@drawable/ic_calendar"
         android:title="calendar"/>
+
+    <item
+        android:id="@+id/menu_review"
+        android:enabled="true"
+        android:icon="@drawable/ic_rate_review"
+        android:title="review"/>
 </menu>

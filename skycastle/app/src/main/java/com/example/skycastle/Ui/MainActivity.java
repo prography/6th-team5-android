@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.skycastle.R;
 import com.example.skycastle.Ui.Fragment.CalendarFragment;
 import com.example.skycastle.Ui.Fragment.HomeFragment;
+import com.example.skycastle.Ui.Fragment.ReviewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private HomeFragment homeFragment = new HomeFragment();
     private CalendarFragment calendarFragment = new CalendarFragment();
+    private ReviewFragment reviewFragment = new ReviewFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_calendar:
                     fragmentTransaction.replace(R.id.main_container, calendarFragment).commitAllowingStateLoss();
+                    break;
+                case R.id.menu_review:
+                    fragmentTransaction.replace(R.id.main_container, reviewFragment).commitAllowingStateLoss();
                     break;
             }
             return true;

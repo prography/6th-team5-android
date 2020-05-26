@@ -14,8 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.skycastle.R;
+import com.example.skycastle.Ui.MainActivity;
 
 public class CalendarFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class CalendarFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_calendar_setting:
                 Toast.makeText(getActivity(), "menu_calendar_setting", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).replaceFragment(new SettingFragment());
                 break;
         }
         return super.onOptionsItemSelected(item);
