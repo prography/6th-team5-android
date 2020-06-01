@@ -27,6 +27,9 @@ public class UnivDetail extends Activity {
         Intent intent = getIntent();
         String image= intent.getExtras().getString("image");
         String name = intent.getExtras().getString("name");
+        ArrayList<String> susi_n=intent.getExtras().getStringArrayList("susi_n");
+        ArrayList<String> susi_t=intent.getExtras().getStringArrayList("susi_t");
+        ArrayList<String> major=intent.getExtras().getStringArrayList("major");
 
         TextView name_t = findViewById(R.id.univ_name);
         name_t.setText(name);
@@ -38,9 +41,13 @@ public class UnivDetail extends Activity {
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "전형선택"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "교과전형"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "논술전형"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "학생부종합전형"));
+        int susi_size=susi_n.size();
+        for(int i=0;i<susi_size;i++){
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, susi_n.get(i)));
+        }
+        //data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "교과전형"));
+        //data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "논술전형"));
+        //data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "학생부종합전형"));
 
         recyclerview.setAdapter(new ExpandableListAdapter(data));
         Button okay;
