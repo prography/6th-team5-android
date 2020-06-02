@@ -21,6 +21,10 @@ import com.example.skycastle.HomeItem;
 import com.example.skycastle.R;
 import com.example.skycastle.Ui.MainActivity;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
@@ -34,19 +38,21 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView)rootView.findViewById(R.id.home_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setHasFixedSize(true);
 
-        homeAdapter = new HomeAdapter(getContext());
-        homeAdapter.addItem(new HomeItem("서울대학교", "지역균형선발전형", "2020-05-23"));
-        homeAdapter.addItem(new HomeItem("서울대학교", "일반전형", "2020-05-21"));
-        homeAdapter.addItem(new HomeItem("서울대학교", "기회균형선발특별전형", "2019-12-17"));
-        homeAdapter.addItem(new HomeItem("한양대학교", "지역균형선발전형", "2019-09-06"));
-        homeAdapter.addItem(new HomeItem("한양대학교", "일반전형", "2019-11-21"));
-        homeAdapter.addItem(new HomeItem("한양대학교", "기회균형선발특별전형", "2019-12-17"));
-        homeAdapter.addItem(new HomeItem("연세대학교", "지역균형선발전형", "2019-09-06"));
-        homeAdapter.addItem(new HomeItem("연세대학교", "일반전형", "2019-11-21"));
-        homeAdapter.addItem(new HomeItem("연세대학교", "기회균형선발특별전형", "2019-12-17"));
+
+        List<HomeItem> data = new ArrayList<>();
+        data.add(new HomeItem(HomeAdapter.HEADER, "서울대학교", "지역균형선발전형", "2020-06-23"));
+        data.add(new HomeItem(HomeAdapter.CHILD, "서울대학교", "일반전형", "2020-06-21"));
+        data.add(new HomeItem(HomeAdapter.CHILD, "서울대학교", "기회균형선발특별전형", "2019-12-17"));
+        data.add(new HomeItem(HomeAdapter.HEADER, "한양대학교", "지역균형선발전형", "2019-09-06"));
+        data.add(new HomeItem(HomeAdapter.CHILD, "한양대학교", "일반전형", "2019-11-21"));
+        data.add(new HomeItem(HomeAdapter.CHILD, "한양대학교", "기회균형선발특별전형", "2019-12-17"));
+        data.add(new HomeItem(HomeAdapter.HEADER, "연세대학교", "지역균형선발전형", "2019-09-06"));
+        data.add(new HomeItem(HomeAdapter.CHILD, "연세대학교", "일반전형", "2019-11-21"));
+        data.add(new HomeItem(HomeAdapter.CHILD, "연세대학교", "기회균형선발특별전형", "2019-12-17"));
+
+        homeAdapter = new HomeAdapter(getContext(), data);
 
         recyclerView.setAdapter(homeAdapter);
 
