@@ -142,6 +142,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             int resultNumber = (int)(Math.floor(TimeUnit.HOURS.convert(dayDiff, TimeUnit.MILLISECONDS)/24f));
             if (resultNumber > 0) {
                 return String.format("D+%d", resultNumber);
+            } else if (resultNumber == 0) {
+                return "D-day";
             }
 
             return String.format("D%d", resultNumber);
