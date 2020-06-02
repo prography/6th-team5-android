@@ -1,4 +1,4 @@
-package com.example.skycastle.Ui.Fragment;
+package com.example.skycastle.Home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,12 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.skycastle.HomeAdapter;
-import com.example.skycastle.HomeItem;
 import com.example.skycastle.R;
-import com.example.skycastle.Ui.MainActivity;
+import com.example.skycastle.SettingFragment;
+import com.example.skycastle.MainActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +37,6 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
 
         List<HomeItem> data = new ArrayList<>();
         data.add(new HomeItem(HomeAdapter.HEADER, "서울대학교", "지역균형선발전형", "2020-06-23"));

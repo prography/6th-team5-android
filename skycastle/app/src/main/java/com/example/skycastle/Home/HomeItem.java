@@ -1,6 +1,5 @@
-package com.example.skycastle;
+package com.example.skycastle.Home;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeItem {

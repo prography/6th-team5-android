@@ -6,9 +6,9 @@
     android:layout_height="match_parent">
 
     <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/calendarView"
         app:eventsEnabled="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

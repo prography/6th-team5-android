@@ -1,4 +1,4 @@
-package com.example.skycastle.Ui.Fragment;
+package com.example.skycastle.Calendar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.applandeo.materialcalendarview.CalendarView;
 import com.example.skycastle.R;
-import com.example.skycastle.Ui.MainActivity;
+import com.example.skycastle.SettingFragment;
+import com.example.skycastle.MainActivity;
 
 public class CalendarFragment extends Fragment {
 
@@ -23,6 +25,8 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_calendar, container, false);
         setHasOptionsMenu(true);
+
+        CalendarView calendarView = (CalendarView)rootView.findViewById(R.id.calendarView);
 
         return rootView;
     }

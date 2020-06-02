@@ -1,4 +1,4 @@
-package com.example.skycastle;
+package com.example.skycastle.Home;
 
 public class HomeChildItem {
     private int showType;

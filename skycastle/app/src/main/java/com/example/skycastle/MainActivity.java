@@ -1,4 +1,4 @@
-package com.example.skycastle.Ui;
+package com.example.skycastle;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,9 +11,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.skycastle.R;
-import com.example.skycastle.Ui.Fragment.CalendarFragment;
-import com.example.skycastle.Ui.Fragment.HomeFragment;
-import com.example.skycastle.Ui.Fragment.ReviewFragment;
+import com.example.skycastle.Calendar.CalendarFragment;
+import com.example.skycastle.Home.HomeFragment;
+import com.example.skycastle.UnivReveiw.ReviewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

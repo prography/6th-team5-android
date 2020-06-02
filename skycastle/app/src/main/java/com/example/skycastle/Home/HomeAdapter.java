@@ -1,4 +1,4 @@
-package com.example.skycastle;
+package com.example.skycastle.Home;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.example.skycastle.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,7 +43,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Log.e("view type : ", ""+viewType);
 
         switch (viewType) {
             case HEADER:
