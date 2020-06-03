@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,9 +17,14 @@ import com.example.skycastle.R;
 
 import java.util.zip.Inflater;
 
-public class WebviewFragment extends Fragment {
+public class WebViewFragment extends Fragment {
     private WebView webView;
     private WebSettings webSettings;
+    private String url = null;
+
+    public WebViewFragment(String url) {
+        this.url = url;
+    }
 
     @Nullable
     @Override
@@ -29,7 +35,12 @@ public class WebviewFragment extends Fragment {
         webView.setWebViewClient(new WebViewClient());
         webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://www.univ100.kr/review/55");
+
+        if (url == null) {
+            Toast.makeText(getContext(), "WebViewFg url miss", Toast.LENGTH_SHORT).show();
+        } else {
+            webView.loadUrl(url);
+        }
 
         return rootView;
     }

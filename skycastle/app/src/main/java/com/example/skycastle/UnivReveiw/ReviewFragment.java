@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,9 +43,7 @@ public class ReviewFragment extends Fragment {
             public void onItemClick(ReviewAdapter.ViewHolder holder, View view, int position) {
                 ReviewItem item = reviewAdapter.getItem(position);
 
-                ((MainActivity)getActivity()).replaceFragment(new WebviewFragment());
-
-                Toast.makeText(getContext(), "univname : "+item.getUnivName(), Toast.LENGTH_LONG).show();
+                ((MainActivity)getActivity()).replaceFragment(new WebViewFragment(item.getUrl()));
             }
         });
 

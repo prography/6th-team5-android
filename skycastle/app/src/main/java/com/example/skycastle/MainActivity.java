@@ -14,9 +14,10 @@ import com.example.skycastle.R;
 import com.example.skycastle.Calendar.CalendarFragment;
 import com.example.skycastle.Home.HomeFragment;
 import com.example.skycastle.UnivReveiw.ReviewFragment;
+import com.example.skycastle.UnivReveiw.WebViewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private BottomNavigationView bottomNavigationView;
     private MenuItem menuItem;
@@ -67,4 +68,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment).addToBackStack(null).commit();
     }
+
+
 }

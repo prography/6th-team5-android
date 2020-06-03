@@ -67,6 +67,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemController.setItem(item);
                 itemController.setOnItemClickListener(itemClickListener);
 
+//                itemController.checkBox.setButtonDrawable(
+//                        context.getResources().getIdentifier(item.getUnivId(), "drawable",context.getPackageName()));
                 // Check Box Click Listen
                 itemController.checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
