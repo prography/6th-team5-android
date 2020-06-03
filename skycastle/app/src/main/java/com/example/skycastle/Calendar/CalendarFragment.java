@@ -1,5 +1,6 @@
 package com.example.skycastle.Calendar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,14 +12,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.skycastle.R;
 import com.example.skycastle.SettingFragment;
 import com.example.skycastle.MainActivity;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class CalendarFragment extends Fragment {
+    private Fragment fragment;
 
     @Nullable
     @Override
@@ -26,7 +37,35 @@ public class CalendarFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_calendar, container, false);
         setHasOptionsMenu(true);
 
+        List<EventDay> events = new ArrayList<>();
+
         CalendarView calendarView = (CalendarView)rootView.findViewById(R.id.calendarView);
+        Calendar calendar = Calendar.getInstance();
+        events.add(new EventDay(calendar, R.drawable.ic_bookmark));
+
+        // 달력 보여주는 범위 정하기
+        Calendar min = Calendar.getInstance();
+        min.add(Calendar.DAY_OF_MONTH, -365);
+        Calendar max = Calendar.getInstance();
+        max.add(Calendar.DAY_OF_MONTH, 365);
+        calendarView.setMinimumDate(min);
+        calendarView.setMaximumDate(max);
+
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
+            @Override
+            public void onDayClick(@NotNull EventDay eventDay) {
+                Calendar clickedDayCalendar = eventDay.getCalendar();
+                Toast.makeText(getContext(),
+                        eventDay.getCalendar().getTime().toString() + " "
+                                + eventDay.isEnabled(),
+                        Toast.LENGTH_SHORT).show();
+
+                CalendarOneDayListFragment dialogFragment = new CalendarOneDayListFragment();
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            }
+        });
+
+        calendarView.setEvents(events);
 
         return rootView;
     }

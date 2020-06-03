@@ -67,13 +67,30 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemController.setItem(item);
                 itemController.setOnItemClickListener(itemClickListener);
 
-//                itemController.checkBox.setButtonDrawable(
-//                        context.getResources().getIdentifier(item.getUnivId(), "drawable",context.getPackageName()));
                 // Check Box Click Listen
+                if (itemController.checkBox.isSelected()) {
+                    itemController.checkBox.setImageResource(R.drawable.ic_arrow_down);
+                }
+                else {
+                    itemController.checkBox.setImageResource(
+                            context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
+                    );
+                }
                 itemController.checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        items.get(position).setSelected(itemController.checkBox.isChecked());
+                        boolean flag = !itemController.checkBox.isSelected();
+                        itemController.checkBox.setSelected(flag);
+                        items.get(position).setSelected(flag);
+
+                        if (flag) {
+                            itemController.checkBox.setImageResource(R.drawable.ic_arrow_down);
+                        }
+                        else {
+                            itemController.checkBox.setImageResource(
+                                    context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
+                            );
+                        }
                     }
                 });
 
@@ -162,7 +179,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView universityTextView;
         TextView applyTypeTextView;
         TextView dayTextView;
-        CheckBox checkBox;
+        ImageView checkBox;
         ImageView dropdownImageView;
         HomeItem refferalItem;
 
@@ -181,7 +198,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             universityTextView.setText(item.getUniversityName());
             applyTypeTextView.setText(item.getApplyType());
             dayTextView.setText(getDday(item.getDay()));
-            checkBox.setChecked(false);
+            checkBox.setSelected(false);
             dropdownImageView.setImageResource(R.drawable.ic_arrow_down);
             refferalItem = item;
         }
