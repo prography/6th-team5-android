@@ -37,6 +37,7 @@ public class UnivDetail extends Activity {
         recyclerview = findViewById(R.id.detail_recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         List<UnivDetail_Item> data = new ArrayList<>();
+
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "정시/수시"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시"));
@@ -45,6 +46,7 @@ public class UnivDetail extends Activity {
         for(int i=0;i<susi_size;i++){
             data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, susi_n.get(i)));
         }
+
         //data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "교과전형"));
         //data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "논술전형"));
         //data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "학생부종합전형"));

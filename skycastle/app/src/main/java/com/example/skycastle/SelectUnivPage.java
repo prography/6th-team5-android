@@ -5,9 +5,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,12 +29,21 @@ public class SelectUnivPage extends AppCompatActivity {
     GridLayoutManager layoutManager;
     List<UnivData> univData = new ArrayList<UnivData>();
     ArrayList<UnivList> list = new ArrayList<UnivList>();
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_univ_page);
         setRetrofit();
+        button=findViewById(R.id.fin);
+        button.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          Intent intent=new Intent(getApplicationContext(), UnivDetail.class);
+                                          startActivity(intent);
+                                      }
+                                  });
 
     }
     private void setRetrofit(){
@@ -39,7 +51,7 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://bongkasten.com:8000/")
+                .baseUrl("http://ec2-54-180-94-185.ap-northeast-2.compute.amazonaws.com:8000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -82,6 +94,7 @@ public class SelectUnivPage extends AppCompatActivity {
                         int m_size=t_data.getMajors().size();
                         for(int k=0;k<m_size;k++){
                             t_major.add(t_data.majors.get(k).getName());
+                            Log.d("major", t_data.majors.get(k).getName());
                         }
                         univ.setMajors(t_major);
                         list.add(univ);
