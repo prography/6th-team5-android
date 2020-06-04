@@ -22,19 +22,19 @@ public class SettingFragment extends Fragment {
     }
 
     private void showBackButton() {
-        ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((BaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.setHasOptionsMenu(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
-        ((MainActivity)getActivity()).onBackPressed();
+        ((BaseActivity)getActivity()).onBackPressed();
         return true;
     }
 
     private void disappearBackButton() {
-        ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((BaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.skycastle.MainActivity;
+import com.example.skycastle.BaseActivity;
 import com.example.skycastle.R;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ReviewFragment extends Fragment {
             public void onItemClick(ReviewAdapter.ViewHolder holder, View view, int position) {
                 ReviewItem item = reviewAdapter.getItem(position);
 
-                ((MainActivity)getActivity()).replaceFragment(new WebViewFragment(item.getUrl()));
+                ((BaseActivity)getActivity()).replaceFragment(new WebViewFragment(item.getUrl()));
             }
         });
 

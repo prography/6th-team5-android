@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skycastle.R;
 import com.example.skycastle.SettingFragment;
-import com.example.skycastle.MainActivity;
+import com.example.skycastle.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment {
                 break;
             case R.id.menu_home_setting:
                 Toast.makeText(getActivity(), "menu_home_setting", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).replaceFragment(new SettingFragment());
+                ((BaseActivity)getActivity()).replaceFragment(new SettingFragment());
                 break;
         }
         return super.onOptionsItemSelected(item);

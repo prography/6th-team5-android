@@ -17,7 +17,7 @@ import com.example.skycastle.UnivReveiw.ReviewFragment;
 import com.example.skycastle.UnivReveiw.WebViewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity{
 
     private BottomNavigationView bottomNavigationView;
     private MenuItem menuItem;

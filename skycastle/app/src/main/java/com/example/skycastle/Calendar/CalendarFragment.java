@@ -1,6 +1,5 @@
 package com.example.skycastle.Calendar;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -20,7 +18,7 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.skycastle.R;
 import com.example.skycastle.SettingFragment;
-import com.example.skycastle.MainActivity;
+import com.example.skycastle.BaseActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -87,7 +85,7 @@ public class CalendarFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_calendar_setting:
                 Toast.makeText(getActivity(), "menu_calendar_setting", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).replaceFragment(new SettingFragment());
+                ((BaseActivity)getActivity()).replaceFragment(new SettingFragment());
                 break;
         }
         return super.onOptionsItemSelected(item);
