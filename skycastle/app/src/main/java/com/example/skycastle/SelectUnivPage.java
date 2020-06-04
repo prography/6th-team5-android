@@ -29,6 +29,7 @@ public class SelectUnivPage extends AppCompatActivity {
     GridLayoutManager layoutManager;
     List<UnivData> univData = new ArrayList<UnivData>();
     ArrayList<UnivList> list = new ArrayList<UnivList>();
+    //뭐야뭐야
     Button button;
 
     @Override
