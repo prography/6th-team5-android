@@ -38,12 +38,12 @@ public class SelectUnivPage extends AppCompatActivity {
         setRetrofit();
         button=findViewById(R.id.fin);
         button.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          Intent intent=new Intent(getApplicationContext(), UnivDetail.class);
-                                          startActivity(intent);
-                                      }
-                                  });
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), BaseActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     private void setRetrofit(){
@@ -94,7 +94,6 @@ public class SelectUnivPage extends AppCompatActivity {
                         int m_size=t_data.getMajors().size();
                         for(int k=0;k<m_size;k++){
                             t_major.add(t_data.majors.get(k).getName());
-                            Log.d("major", t_data.majors.get(k).getName());
                         }
                         univ.setMajors(t_major);
                         list.add(univ);
