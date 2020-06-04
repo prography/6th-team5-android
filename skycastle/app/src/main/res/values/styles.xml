@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="customwidget" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="popuptheme" parent = "@android:style/Theme.Holo.Light.Dialog.NoActionBar"></style>
 </resources>
