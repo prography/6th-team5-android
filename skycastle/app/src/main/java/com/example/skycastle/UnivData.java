@@ -27,27 +27,27 @@ public class UnivData {
         this.logo = logo;
     }
 
-    public ArrayList<com.example.skycastle.susis> getSusis() {
+    public ArrayList<susis> getSusis() {
         return susis;
     }
 
-    public void setSusis(ArrayList<com.example.skycastle.susis> susis) {
+    public void setSusis(ArrayList<susis> susis) {
         this.susis = susis;
     }
 
-    public ArrayList<com.example.skycastle.jeongsis> getJeongsis() {
+    public ArrayList<jeongsis> getJeongsis() {
         return jeongsis;
     }
 
-    public void setJeongsis(ArrayList<com.example.skycastle.jeongsis> jeongsis) {
+    public void setJeongsis(ArrayList<jeongsis> jeongsis) {
         this.jeongsis = jeongsis;
     }
 
-    public ArrayList<com.example.skycastle.majors> getMajors() {
+    public ArrayList<majors> getMajors() {
         return majors;
     }
 
-    public void setMajors(ArrayList<com.example.skycastle.majors> majors) {
+    public void setMajors(ArrayList<majors> majors) {
         this.majors = majors;
     }
 
