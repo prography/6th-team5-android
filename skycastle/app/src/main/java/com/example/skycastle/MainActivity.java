@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (isFirstRun==false) {
-            Intent newIntent = new Intent(getApplicationContext(), SelectUnivPage.class);
+            Intent newIntent = new Intent(getApplicationContext(), BaseActivity.class);
             startActivity(newIntent);
         }
     }

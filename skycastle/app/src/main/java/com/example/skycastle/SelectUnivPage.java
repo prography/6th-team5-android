@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,21 +32,28 @@ public class SelectUnivPage extends AppCompatActivity {
     ArrayList<UnivList> list = new ArrayList<UnivList>();
     //뭐야뭐야
     Button button;
+    public SharedPreferences prefs;
+    boolean isFirstRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_univ_page);
+        prefs = getSharedPreferences("Pref2", MODE_PRIVATE);
+        isFirstRun = prefs.getBoolean("isFirstRun", true);
         setRetrofit();
         button=findViewById(R.id.fin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkFirstRun();
                 Intent intent=new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
             }
         });
-
+        if (isFirstRun==false){
+            finish();
+        }
     }
     private void setRetrofit(){
 
@@ -134,5 +142,17 @@ public class SelectUnivPage extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+    public void checkFirstRun() {
+
+        if (isFirstRun) {
+            prefs.edit().putBoolean("isFirstRun", false).apply();
+        }
+
     }
 }
