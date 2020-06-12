@@ -71,8 +71,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                     intent.putExtra("image", listData.get(pos).getLogo());
                     intent.putExtra("name", listData.get(pos).getName());
                     intent.putExtra("susi_n", listData.get(pos).getSusi_n());
-                    intent.putExtra("susi_t", listData.get(pos).getSusi_t());
-                    intent.putExtra("major", listData.get(pos).getMajors());
+                    intent.putExtra("susi_mb", listData.get(pos).getSusi_mb());
+                    intent.putExtra("jeongsi_mb", listData.get(pos).getJeongsi_mb());
                     context.startActivity(intent);
                 }
             });

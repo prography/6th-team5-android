@@ -8,8 +8,8 @@ public class UnivList {
     String name;
     String logo;
     ArrayList<String> susi_n;
-    ArrayList<String> susi_t;
-    ArrayList<String> majors;
+    ArrayList<String> susi_mb;
+    ArrayList<String> jeongsi_mb;
 
     public int getId() {
         return id;
@@ -40,20 +40,20 @@ public class UnivList {
         this.susi_n = susi_n;
     }
 
-    public ArrayList<String> getSusi_t() {
-        return susi_t;
+    public ArrayList<String> getSusi_mb() {
+        return susi_mb;
     }
 
-    public void setSusi_t(ArrayList<String> susi_t) {
-        this.susi_t = susi_t;
+    public void setSusi_mb(ArrayList<String> susi_mb) {
+        this.susi_mb = susi_mb;
     }
 
-    public ArrayList<String> getMajors() {
-        return majors;
+    public ArrayList<String> getJeongsi_mb() {
+        return jeongsi_mb;
     }
 
-    public void setMajors(ArrayList<String> majors) {
-        this.majors = majors;
+    public void setJeongsi_mb(ArrayList<String> jeongsi_mb) {
+        this.jeongsi_mb = jeongsi_mb;
     }
 
     /*public List<MajorClass> getMajorClass() {

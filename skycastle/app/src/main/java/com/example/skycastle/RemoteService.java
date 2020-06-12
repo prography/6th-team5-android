@@ -10,4 +10,5 @@ import retrofit2.http.QueryMap;
 public interface RemoteService {
     @GET("/")
     Call<List<UnivData>> getUnivData();
+
 }

@@ -8,8 +8,9 @@ public class UnivData {
     String name;
     String logo;
     ArrayList<susis> susis;
+    ArrayList<susi_major_blocks> susi_major_blocks;
     ArrayList<jeongsis> jeongsis;
-    ArrayList<majors> majors;
+    ArrayList<jeongsi_major_blocks> jeongsi_major_blocks;
 
     public String getName() {
         return name;
@@ -35,6 +36,14 @@ public class UnivData {
         this.susis = susis;
     }
 
+    public ArrayList<susi_major_blocks> getSusi_major_blocks() {
+        return susi_major_blocks;
+    }
+
+    public void setSusi_major_blocks(ArrayList<susi_major_blocks> susi_major_blocks) {
+        this.susi_major_blocks = susi_major_blocks;
+    }
+
     public ArrayList<jeongsis> getJeongsis() {
         return jeongsis;
     }
@@ -43,12 +52,11 @@ public class UnivData {
         this.jeongsis = jeongsis;
     }
 
-    public ArrayList<majors> getMajors() {
-        return majors;
+    public ArrayList<jeongsi_major_blocks> getJeongsi_major_blocks() {
+        return jeongsi_major_blocks;
     }
 
-    public void setMajors(ArrayList<majors> majors) {
-        this.majors = majors;
+    public void setJeongsi_major_blocks(ArrayList<jeongsi_major_blocks> jeongsi_major_blocks) {
+        this.jeongsi_major_blocks = jeongsi_major_blocks;
     }
-
 }

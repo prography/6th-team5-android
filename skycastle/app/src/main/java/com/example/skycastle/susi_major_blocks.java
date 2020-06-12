@@ -1,8 +1,7 @@
 package com.example.skycastle;
 
-public class susis {
+public class susi_major_blocks {
     String name;
-    int year;
 
     public String getName() {
         return name;
@@ -11,13 +10,4 @@ public class susis {
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
 }

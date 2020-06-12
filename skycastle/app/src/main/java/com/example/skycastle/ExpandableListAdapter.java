@@ -1,6 +1,7 @@
 package com.example.skycastle;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int CHILD = 1;
 
     private List<UnivDetail_Item> data;
+    //private Univ_ServerSend senddata;
 
     public ExpandableListAdapter(List<UnivDetail_Item> data) {
         this.data = data;
@@ -33,6 +35,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case HEADER:
                 LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.list_header, parent, false);
+
                 ListHeaderViewHolder header = new ListHeaderViewHolder(view);
                 return header;
             case CHILD:
@@ -49,7 +52,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return null;
     }
 
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final UnivDetail_Item item = data.get(position);
         switch (item.type) {
             case HEADER:
@@ -91,6 +94,29 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case CHILD:
                 TextView itemTextView = (TextView) holder.itemView;
                 itemTextView.setText(data.get(position).text);
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        if(data.get(position).getInfo_type()=="sj") {
+                            Log.d("1",data.get(position).text);
+                            UnivDetail.senddata.setSj(data.get(position).text);
+                            Log.d("1",UnivDetail.senddata.getSj());
+                        }else if(data.get(position).getInfo_type()=="susi_j"){
+                            UnivDetail.senddata.setSusi_j(data.get(position).text);
+                            Log.d("1",UnivDetail.senddata.getSusi_j());
+                        }else if(data.get(position).getInfo_type()=="s_block"){
+                            UnivDetail.senddata.setS_block(data.get(position).text);
+                        }else if(data.get(position).getInfo_type()=="gun"){
+                            UnivDetail.senddata.setGun(data.get(position).text);
+                        }else if(data.get(position).getInfo_type()=="j_block"){
+                            UnivDetail.senddata.setJ_block(data.get(position).text);
+                        }
+                        else{
+                            Log.d("error","error");
+                        }
+                        Log.d("click","click");
+                    }
+                });
                 break;
         }
     }
