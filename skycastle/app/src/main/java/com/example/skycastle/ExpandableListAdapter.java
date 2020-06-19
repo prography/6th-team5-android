@@ -20,8 +20,9 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<UnivDetail_Item> data;
     //private Univ_ServerSend senddata;
 
-    public ExpandableListAdapter(List<UnivDetail_Item> data) {
+    public ExpandableListAdapter(List<UnivDetail_Item> data,String name) {
         this.data = data;
+        UnivDetail.senddata.setUniv_n(name);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final UnivDetail_Item item = data.get(position);
+
         switch (item.type) {
             case HEADER:
                 final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;

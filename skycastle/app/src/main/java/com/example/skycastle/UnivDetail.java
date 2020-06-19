@@ -63,7 +63,7 @@ public class UnivDetail extends Activity {
             data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, jeongsi_mb.get(k),"j_block"));
         }
 
-        recyclerview.setAdapter(new ExpandableListAdapter(data));
+        recyclerview.setAdapter(new ExpandableListAdapter(data,name));
         Button okay;
         okay = findViewById(R.id.ok_button);
         okay.setOnClickListener(new View.OnClickListener() {
