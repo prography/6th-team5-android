@@ -68,7 +68,7 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-94-185.ap-northeast-2.compute.amazonaws.com/")
+                .baseUrl("http://bongkasten.com/susi/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

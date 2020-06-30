@@ -14,17 +14,32 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class UnivDetail extends Activity {
     private RecyclerView recyclerview;
     static Univ_ServerSend senddata=new Univ_ServerSend();
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void testEvent(DataEvent event){
+        TextView name_t = findViewById(R.id.univ_name);
+        name_t.setText(event.eventText);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_univ_detail);
+
+        try{
+            EventBus.getDefault().register(this);
+        }catch(Exception e){}
 
         Intent intent = getIntent();
         String image= intent.getExtras().getString("image");
@@ -83,5 +98,13 @@ public class UnivDetail extends Activity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        try{
+            EventBus.getDefault().unregister(this);
+        }catch (Exception e){}
     }
 }

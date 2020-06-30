@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +119,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             Log.d("error","error");
                         }
                         Log.d("click","click");
+                        EventBus.getDefault().post(new DataEvent(data.get(position).text));
                     }
                 });
                 break;
