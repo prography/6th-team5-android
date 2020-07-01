@@ -14,17 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skycastle.MyDatabase.univ_img;
+
 import java.util.List;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemViewHolder>{
-    private List<UnivList> listData;
+    private List<univ_img> listData;
     private Context context;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private ItemViewHolder holder;
     private  View view;
     private int position;
 
-    public recyclerAdapter(Context context, List<UnivList> list){
+    public recyclerAdapter(Context context, List<univ_img> list){
         this.context = (Context) context;
         this.listData = list;
     }
@@ -46,7 +48,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
         return listData.size();
     }
 
-    void addItem(UnivList data) {
+    void addItem(univ_img data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
@@ -55,7 +57,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
         private TextView textView;
         private ImageView u_icon;
         private ConstraintLayout list_con;
-        private  UnivList data;
+        private  univ_img data;
         private int position;
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -68,21 +70,18 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                 public void onClick(View v) {
                     int pos = getAdapterPosition() ;
                     Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
-                    intent.putExtra("image", listData.get(pos).getLogo());
-                    intent.putExtra("name", listData.get(pos).getName());
-                    intent.putExtra("susi_n", listData.get(pos).getSusi_n());
-                    intent.putExtra("susi_mb", listData.get(pos).getSusi_mb());
-                    intent.putExtra("jeongsi_mb", listData.get(pos).getJeongsi_mb());
+                    //intent.putExtra("image", listData.get(pos).getLogo());
+
                     context.startActivity(intent);
                 }
             });
         }
 
-        public void onBind(UnivList univList, int position) {
+        public void onBind(univ_img univList, int position) {
             this.data = univList;
             this.position = position;
-            final String name = data.getName();
-            final String image = data.getLogo();
+            final String name = data.getUniversity();
+            final String image = data.getSj();
 
             textView.setText(name);
             //u_icon.set

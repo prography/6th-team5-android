@@ -1,4 +1,4 @@
-package com.example.skycastle.Database;
+package com.example.skycastle.MyDatabase;
 
 import android.content.Context;
 

@@ -2,22 +2,19 @@ package com.example.skycastle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 
-import com.example.skycastle.Database.AppDatabase;
-import com.example.skycastle.Database.InfoSave;
+import com.example.skycastle.MyDatabase.AppDatabase;
+import com.example.skycastle.MyDatabase.InfoSave;
+import com.example.skycastle.MyDatabase.univ_img;
 import com.example.skycastle.UnivSchdule.UnivSchdule;
-import com.example.skycastle.UnivSchdule.schedules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +33,7 @@ public class SelectUnivPage extends AppCompatActivity {
     GridLayoutManager layoutManager;
     List<InfoSave> univData = new ArrayList<InfoSave>();
     List<UnivSchdule> univSchdules = new ArrayList<UnivSchdule>();
-    ArrayList<UnivList> list = new ArrayList<UnivList>();
+    List<univ_img> list = new ArrayList<univ_img>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
     Thread thread;
     Button button;
@@ -109,8 +106,9 @@ public class SelectUnivPage extends AppCompatActivity {
                             }catch(InterruptedException e){
 
                             }
-                            List<String>univ_n=db.infoSaveDao().findUniv();
-                            Log.d("univ_n",univ_n.get(0));
+                            List<univ_img>univ_n=db.infoSaveDao().findUniv();
+                            Log.d("univ_n",univ_n.get(0).getSj());
+
                         }
                     };
                     thread = new Thread(runnable2);

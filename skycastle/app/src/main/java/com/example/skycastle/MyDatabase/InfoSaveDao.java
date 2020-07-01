@@ -1,4 +1,4 @@
-package com.example.skycastle.Database;
+package com.example.skycastle.MyDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -15,8 +15,8 @@ public interface InfoSaveDao {
     @Query("SELECT * FROM InfoSave")
     LiveData<List<InfoSave>> getAll();
 
-    @Query("SELECT DISTINCT university FROM InfoSave")
-    public List<String> findUniv();
+    @Query("SELECT DISTINCT university, sj FROM InfoSave")
+    public List<univ_img> findUniv();
 
     @Insert
     void insert(List<InfoSave> infoSaves);
