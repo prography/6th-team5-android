@@ -1,6 +1,8 @@
 package com.example.skycastle.MyDatabase;
 
-public class univ_img {
+import java.io.Serializable;
+
+public class univ_img implements Serializable {
     String university;
     String sj;
 

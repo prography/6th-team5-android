@@ -46,8 +46,27 @@ public class SelectUnivPage extends AppCompatActivity {
         setContentView(R.layout.activity_select_univ_page);
         prefs = getSharedPreferences("Pref2", MODE_PRIVATE);
         isFirstRun = prefs.getBoolean("isFirstRun", true);
-        setRetrofit();
         button=findViewById(R.id.fin);
+
+        Intent intent = getIntent();
+        list=(List<univ_img>) intent.getSerializableExtra("univ_n");
+        Log.d("intent",list.get(0).getSj());
+
+        recyclerView = (RecyclerView)findViewById(R.id.univ_recycler_view);
+        adapter = new recyclerAdapter(getApplicationContext(), list);
+
+        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 1;
+            }
+        });
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,92 +80,7 @@ public class SelectUnivPage extends AppCompatActivity {
             finish();
         }
     }
-    private void setRetrofit(){
 
-        Log.d("onResponse", "1");
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://bongkasten.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Log.d("onResponse", "2");
-
-        final RemoteService remote = retrofit.create(RemoteService.class);
-        Call<List<InfoSave>> call = remote.getUnivData();
-
-        call.enqueue(new Callback<List<InfoSave>>() {
-
-            @Override
-            public void onResponse(Call<List<InfoSave>> call, Response<List<InfoSave>> response) {
-                String test;
-
-                try{
-                    univData = response.body();
-                    Log.d("univdata", univData.get(0).getDescription());
-
-                    int size=univData.size();
-
-                    final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
-
-                    Runnable runnable1=new Runnable() {
-                        @Override
-                        public void run() {
-                            db.infoSaveDao().insert(univData);
-                        }
-                    };
-                    thread = new Thread(runnable1);
-                    thread.start();
-
-                    Runnable runnable2=new Runnable() {
-                        @Override
-                        public void run() {
-                            try{
-                                Thread.sleep(500);
-                            }catch(InterruptedException e){
-
-                            }
-                            List<univ_img>univ_n=db.infoSaveDao().findUniv();
-                            Log.d("univ_n",univ_n.get(0).getSj());
-
-                        }
-                    };
-                    thread = new Thread(runnable2);
-                    thread.start();
-
-                    try{
-                        thread.join();
-                    }catch (InterruptedException e)
-                    {
-                    }
-
-                    recyclerView = (RecyclerView)findViewById(R.id.univ_recycler_view);
-                    adapter = new recyclerAdapter(getApplicationContext(), list);
-
-                    layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-
-                    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                        @Override
-                        public int getSpanSize(int position) {
-                            return 1;
-                        }
-                    });
-
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-
-                }catch (Exception e){
-                    Log.d("onResponse", "Error");
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<InfoSave>> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void setRetrofit2(){
 
