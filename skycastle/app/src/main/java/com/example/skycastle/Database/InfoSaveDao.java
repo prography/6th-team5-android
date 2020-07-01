@@ -11,14 +11,15 @@ import java.util.List;
 
 @Dao
 public interface InfoSaveDao {
+
     @Query("SELECT * FROM InfoSave")
     LiveData<List<InfoSave>> getAll();
 
-    @Query("SELECT * FROM InfoSave WHERE start_date LIKE :search")
-    public List<InfoSave> findListWithCity(String search);
+    @Query("SELECT DISTINCT university FROM InfoSave")
+    public List<String> findUniv();
 
     @Insert
-    void insert(InfoSave infoSave);
+    void insert(List<InfoSave> infoSaves);
 
     @Update
     void update(InfoSave infoSave);
@@ -29,6 +30,6 @@ public interface InfoSaveDao {
     @Query("DELETE FROM InfoSave")
     void deleteAll();
 
-    @Query("DELETE FROM InfoSave WHERE univ= :city_d")
+    @Query("DELETE FROM InfoSave WHERE university= :city_d")
     void erase(String city_d);
 }

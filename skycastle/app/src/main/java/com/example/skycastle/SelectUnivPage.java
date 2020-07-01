@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,7 @@ public class SelectUnivPage extends AppCompatActivity {
     RecyclerView recyclerView;
     recyclerAdapter adapter;
     GridLayoutManager layoutManager;
-    List<UnivData> univData = new ArrayList<UnivData>();
+    List<InfoSave> univData = new ArrayList<InfoSave>();
     List<UnivSchdule> univSchdules = new ArrayList<UnivSchdule>();
     ArrayList<UnivList> list = new ArrayList<UnivList>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
@@ -68,57 +69,57 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://bongkasten.com/susi/")
+                .baseUrl("http://bongkasten.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Log.d("onResponse", "2");
 
         final RemoteService remote = retrofit.create(RemoteService.class);
-        Call<List<UnivData>> call = remote.getUnivData();
+        Call<List<InfoSave>> call = remote.getUnivData();
 
-        call.enqueue(new Callback<List<UnivData>>() {
+        call.enqueue(new Callback<List<InfoSave>>() {
 
             @Override
-            public void onResponse(Call<List<UnivData>> call, Response<List<UnivData>> response) {
+            public void onResponse(Call<List<InfoSave>> call, Response<List<InfoSave>> response) {
                 String test;
 
                 try{
                     univData = response.body();
+                    Log.d("univdata", univData.get(0).getDescription());
 
                     int size=univData.size();
-                    for(int i=0; i<size;i++){
-                        //Log.d("size", Integer.toString(city_r.getCities().size()));
-                         UnivData t_data = univData.get(i);
-                        Log.e("name", t_data.getName());
-                        Log.e("logo", t_data.getLogo());
-                        UnivList univ = new UnivList();
-                        univ.setName(t_data.getName());
-                        univ.setLogo(t_data.getLogo());
 
-                        ArrayList<String> t_susi_n=new ArrayList<String>();
-                        int s_size=t_data.getSusis().size();
-                        for(int j=0;j<s_size;j++){
-                            Log.d("susis", t_data.susis.get(j).getName());
-                            t_susi_n.add(t_data.susis.get(j).getName());
-                        }
-                        univ.setSusi_n(t_susi_n);
+                    final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
 
-                        ArrayList<String> t_susi_mb=new ArrayList<String>();
-                        int sm_size=t_data.getSusi_major_blocks().size();
-                        for(int z=0;z<sm_size;z++){
-                            Log.d("susis", t_data.susi_major_blocks.get(z).getName());
-                            t_susi_mb.add(t_data.susi_major_blocks.get(z).getName());
+                    Runnable runnable1=new Runnable() {
+                        @Override
+                        public void run() {
+                            db.infoSaveDao().insert(univData);
                         }
-                        univ.setSusi_mb(t_susi_mb);
+                    };
+                    thread = new Thread(runnable1);
+                    thread.start();
 
-                        ArrayList<String> t_jeongsi_mb=new ArrayList<String>();
-                        int j_size=t_data.getJeongsi_major_blocks().size();
-                        for(int k=0;k<j_size;k++){
-                            t_jeongsi_mb.add(t_data.jeongsi_major_blocks.get(k).getName());
+                    Runnable runnable2=new Runnable() {
+                        @Override
+                        public void run() {
+                            try{
+                                Thread.sleep(500);
+                            }catch(InterruptedException e){
+
+                            }
+                            List<String>univ_n=db.infoSaveDao().findUniv();
+                            Log.d("univ_n",univ_n.get(0));
                         }
-                        univ.setJeongsi_mb(t_jeongsi_mb);
-                        list.add(univ);
+                    };
+                    thread = new Thread(runnable2);
+                    thread.start();
+
+                    try{
+                        thread.join();
+                    }catch (InterruptedException e)
+                    {
                     }
 
                     recyclerView = (RecyclerView)findViewById(R.id.univ_recycler_view);
@@ -143,7 +144,7 @@ public class SelectUnivPage extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<UnivData>> call, Throwable t) {
+            public void onFailure(Call<List<InfoSave>> call, Throwable t) {
 
             }
         });
@@ -198,7 +199,7 @@ public class SelectUnivPage extends AppCompatActivity {
                     int size=univSchdules.size();
                     Log.d("onResponse", "4");
                     final ArrayList<InfoSave> infoSaves=new ArrayList<InfoSave>();
-                    for(int i=0;i<size;i++){
+                    /*for(int i=0;i<size;i++){
                         String univ=univSchdules.get(i).getUniv();
                         String sj=univSchdules.get(i).getSj();
                         String jh=univSchdules.get(i).getJh();
@@ -221,25 +222,25 @@ public class SelectUnivPage extends AppCompatActivity {
                             Log.d("start_date", start_date);
                             Log.d("end_date", end_date);
                         }
-                    }
+                    }*/
                     final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
 
-                    /*Runnable runnable1=new Runnable() {
+                    Runnable runnable1=new Runnable() {
                         @Override
                         public void run() {
                             for(int k=0;k<infoSaves.size();k++){
-                                f_list=db.infoSaveDao().findListWithCity(infoSaves.get(k));
+                                //f_list=db.infoSaveDao().findListWithCity(infoSaves.get(k));
                             }
                         }
                     };
                     thread = new Thread(runnable1);
-                    thread.start();*/
+                    thread.start();
 
                     Runnable runnable2=new Runnable() {
                         @Override
                         public void run() {
                             for(int j=0;j<infoSaves.size();j++){
-                                db.infoSaveDao().insert(infoSaves.get(j));
+                                //db.infoSaveDao().insert(infoSaves.get(j));
                             }
                         }
                     };

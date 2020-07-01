@@ -41,6 +41,10 @@ public class CalendarFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.ic_bookmark));
 
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(2020, 6, 5);
+        events.add(new EventDay(calendar2, R.drawable.ic_bookmark));
+
         // 달력 보여주는 범위 정하기
         Calendar min = Calendar.getInstance();
         min.add(Calendar.DAY_OF_MONTH, -365);

@@ -5,58 +5,76 @@ import java.util.HashMap;
 
 public class UnivData {
 
-    String name;
-    String logo;
-    ArrayList<susis> susis;
-    ArrayList<susi_major_blocks> susi_major_blocks;
-    ArrayList<jeongsis> jeongsis;
-    ArrayList<jeongsi_major_blocks> jeongsi_major_blocks;
+    int id;
+    String university;
+    String sj;
+    String jh;
+    String block;
+    String description;
+    String start_date;
+    String end_date;
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getUniversity() {
+        return university;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
-    public ArrayList<susis> getSusis() {
-        return susis;
+    public String getSj() {
+        return sj;
     }
 
-    public void setSusis(ArrayList<susis> susis) {
-        this.susis = susis;
+    public void setSj(String sj) {
+        this.sj = sj;
     }
 
-    public ArrayList<susi_major_blocks> getSusi_major_blocks() {
-        return susi_major_blocks;
+    public String getJh() {
+        return jh;
     }
 
-    public void setSusi_major_blocks(ArrayList<susi_major_blocks> susi_major_blocks) {
-        this.susi_major_blocks = susi_major_blocks;
+    public void setJh(String jh) {
+        this.jh = jh;
     }
 
-    public ArrayList<jeongsis> getJeongsis() {
-        return jeongsis;
+    public String getBlock() {
+        return block;
     }
 
-    public void setJeongsis(ArrayList<jeongsis> jeongsis) {
-        this.jeongsis = jeongsis;
+    public void setBlock(String block) {
+        this.block = block;
     }
 
-    public ArrayList<jeongsi_major_blocks> getJeongsi_major_blocks() {
-        return jeongsi_major_blocks;
+    public String getDescription() {
+        return description;
     }
 
-    public void setJeongsi_major_blocks(ArrayList<jeongsi_major_blocks> jeongsi_major_blocks) {
-        this.jeongsi_major_blocks = jeongsi_major_blocks;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
     }
 }

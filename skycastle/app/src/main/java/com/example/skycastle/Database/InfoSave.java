@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class InfoSave {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    String univ;
+    @PrimaryKey
+    int id;
+    String university;
     String sj;
     String jh;
     String block;
@@ -23,12 +23,12 @@ public class InfoSave {
         this.id = id;
     }
 
-    public String getUniv() {
-        return univ;
+    public String getUniversity() {
+        return university;
     }
 
-    public void setUniv(String univ) {
-        this.univ = univ;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
     public String getSj() {
