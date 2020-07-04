@@ -1,6 +1,5 @@
 package com.example.skycastle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +12,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.skycastle.MyDatabase.BlockData;
+import com.example.skycastle.MyDatabase.JhData;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,15 +43,13 @@ public class UnivDetail extends Activity {
             EventBus.getDefault().register(this);
         }catch(Exception e){}
 
-        Intent intent = getIntent();
-        String image= intent.getExtras().getString("image");
-        String name = intent.getExtras().getString("name");
-        ArrayList<String> susi_n=intent.getExtras().getStringArrayList("susi_n");
-        ArrayList<String> susi_mb=intent.getExtras().getStringArrayList("susi_mb");
-        ArrayList<String> jeongsi_mb=intent.getExtras().getStringArrayList("jeongsi_mb");
+        Intent intent2 = getIntent();
+        List<JhData> detailData = (List<JhData>) intent2.getSerializableExtra("jhData");
+        List<BlockData> blockData = (List<BlockData>) intent2.getSerializableExtra("blockData");
+        Log.d("intent",detailData.get(0).getSj());
 
         TextView name_t = findViewById(R.id.univ_name);
-        name_t.setText(name);
+        name_t.setText(detailData.get(0).getUniversity());
 
         recyclerview = findViewById(R.id.detail_recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -58,14 +58,20 @@ public class UnivDetail extends Activity {
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시","sj"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시","sj"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "수시전형선택","susi_j"));
-        int susi_size=susi_n.size();
-        for(int i=0;i<susi_size;i++){
-            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, susi_n.get(i),"susi_j"));
+        int detail_size=detailData.size();
+        for(int i=0;i<detail_size;i++){
+            if(detailData.get(i).getSj().equals("수시")){
+                Log.d("???","dddd");
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.get(i).getJh(),"susi_j"));
+            }
         }
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "수시학과","s_block"));
-        int susi_ms=susi_mb.size();
-        for(int j=0;j<susi_ms;j++){
-            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, susi_mb.get(j),"s_block"));
+
+        int block_s=blockData.size();
+        for(int j=0;j<block_s;j++){
+            if(blockData.get(j).getSj().equals("수시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, blockData.get(j).getBlock(),"s_block"));
+            }
         }
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "정시 군","gun"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "가군","gun"));
@@ -73,12 +79,14 @@ public class UnivDetail extends Activity {
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "다군","gun"));
 
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "정시학과","j_block"));
-        int js_ms=jeongsi_mb.size();
-        for(int k=0;k<js_ms;k++){
-            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, jeongsi_mb.get(k),"j_block"));
+
+        for(int k=0;k<block_s;k++){
+            if(blockData.get(k).getSj().equals("정시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, blockData.get(k).getBlock(),"j_block"));
+            }
         }
 
-        recyclerview.setAdapter(new ExpandableListAdapter(data,name));
+        recyclerview.setAdapter(new ExpandableListAdapter(data,detailData.get(0).getUniversity()));
         Button okay;
         okay = findViewById(R.id.ok_button);
         okay.setOnClickListener(new View.OnClickListener() {

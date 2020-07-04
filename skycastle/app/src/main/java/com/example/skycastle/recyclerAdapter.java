@@ -2,7 +2,7 @@ package com.example.skycastle;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skycastle.MyDatabase.AppDatabase;
+import com.example.skycastle.MyDatabase.BlockData;
+import com.example.skycastle.MyDatabase.JhData;
 import com.example.skycastle.MyDatabase.univ_img;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemViewHolder>{
@@ -25,10 +30,14 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
     private ItemViewHolder holder;
     private  View view;
     private int position;
+    private AppDatabase db;
+    Thread thread;
+    List<BlockData> blockData=new ArrayList<BlockData>();
 
-    public recyclerAdapter(Context context, List<univ_img> list){
+    public recyclerAdapter(Context context, List<univ_img> list,AppDatabase db){
         this.context = (Context) context;
         this.listData = list;
+        this.db=db;
     }
     @NonNull
     @Override
@@ -69,10 +78,39 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition() ;
-                    Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
-                    //intent.putExtra("image", listData.get(pos).getLogo());
+                    final String name=listData.get(pos).getUniversity();
+                    Log.d("uname",name);
 
-                    context.startActivity(intent);
+                    Runnable runnable1=new Runnable() {
+                        @Override
+                        public void run() {
+                            blockData= db.infoSaveDao().findBlokcData(name);
+                            Log.d("uname2",blockData.get(0).getBlock());
+                        }
+                    };
+                    thread = new Thread(runnable1);
+                    thread.start();
+
+                    Runnable runnable2=new Runnable() {
+                        @Override
+                        public void run() {
+                            List<JhData> jhData= db.infoSaveDao().findJhData(name);
+                            try{
+                                Thread.sleep(200);
+                            }catch(InterruptedException e){
+
+                            }
+                            Log.d("uname2",blockData.get(0).getBlock());
+                            Log.d("uname2",jhData.get(0).getJh());
+                            Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
+                            intent.putExtra("jhData", (Serializable) jhData);
+                            intent.putExtra("blockData", (Serializable) blockData);
+                            context.startActivity(intent);
+                        }
+                    };
+                    Thread thread2 = new Thread(runnable2);
+                    thread2.start();
+
                 }
             });
         }

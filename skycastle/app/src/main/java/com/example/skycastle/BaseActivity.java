@@ -23,7 +23,7 @@ public class BaseActivity extends AppCompatActivity{
     private MenuItem menuItem;
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
-    private HomeFragment homeFragment = new HomeFragment();
+    private HomeFragment homeFragment = new HomeFragment(1);
     private CalendarFragment calendarFragment = new CalendarFragment();
     private ReviewFragment reviewFragment = new ReviewFragment();
 

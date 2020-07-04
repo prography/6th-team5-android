@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface RemoteService2 {
-    @GET("/selectall/?")
+    @GET("/info/?")
     Call<List<UnivSchdule>> getSendData(@QueryMap Map<String, String> data);
 }

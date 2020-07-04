@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,7 @@ public class SelectUnivPage extends AppCompatActivity {
     Button button;
     public SharedPreferences prefs;
     boolean isFirstRun;
+    String android_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,16 @@ public class SelectUnivPage extends AppCompatActivity {
         isFirstRun = prefs.getBoolean("isFirstRun", true);
         button=findViewById(R.id.fin);
 
+        android_id = Settings.Secure.getString(this.getContentResolver(),Settings.Secure.ANDROID_ID);
+        Log.d("Android_ID >>> ", android_id);
+
         Intent intent = getIntent();
         list=(List<univ_img>) intent.getSerializableExtra("univ_n");
         Log.d("intent",list.get(0).getSj());
 
+        final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
         recyclerView = (RecyclerView)findViewById(R.id.univ_recycler_view);
-        adapter = new recyclerAdapter(getApplicationContext(), list);
+        adapter = new recyclerAdapter(getApplicationContext(), list,db);
 
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
 
@@ -87,15 +93,16 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-94-185.ap-northeast-2.compute.amazonaws.com/")
+                .baseUrl("http://125.130.100.2:8000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Log.d("onResponse", "2");
         Map map=new HashMap();
 
-        String send_t=Integer.toString(univ_serverSends.size());
-        map.put("num",send_t);
+        String send_t=android_id;
+
+        map.put("id",send_t);
         for(int i=0; i<univ_serverSends.size();i++){
             Univ_ServerSend t_data=univ_serverSends.get(i);
             if(univ_serverSends.get(i).getSj()=="수시"){

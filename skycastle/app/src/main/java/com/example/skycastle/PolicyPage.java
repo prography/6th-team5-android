@@ -114,7 +114,7 @@ public class PolicyPage extends AppCompatActivity {
                         @Override
                         public void run() {
                             try{
-                                Thread.sleep(500);
+                                Thread.sleep(200);
                             }catch(InterruptedException e){
 
                             }
@@ -122,7 +122,6 @@ public class PolicyPage extends AppCompatActivity {
                             Log.d("univ_n",univ_n.get(0).getSj());
                             Intent intent=new Intent(getApplicationContext(), SelectUnivPage.class);
                             intent.putExtra("univ_n", (Serializable) univ_n);
-
                             startActivity(intent);
 
                         }

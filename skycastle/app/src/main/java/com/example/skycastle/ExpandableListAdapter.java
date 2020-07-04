@@ -20,6 +20,9 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int CHILD = 1;
 
     private List<UnivDetail_Item> data;
+    String sj="";
+    String jh="";
+    String block="";
     //private Univ_ServerSend senddata;
 
     public ExpandableListAdapter(List<UnivDetail_Item> data,String name) {
@@ -104,22 +107,28 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         if(data.get(position).getInfo_type()=="sj") {
                             Log.d("1",data.get(position).text);
                             UnivDetail.senddata.setSj(data.get(position).text);
+                            sj=data.get(position).text;
                             Log.d("1",UnivDetail.senddata.getSj());
                         }else if(data.get(position).getInfo_type()=="susi_j"){
                             UnivDetail.senddata.setSusi_j(data.get(position).text);
+                            jh=data.get(position).text;
                             Log.d("1",UnivDetail.senddata.getSusi_j());
                         }else if(data.get(position).getInfo_type()=="s_block"){
                             UnivDetail.senddata.setS_block(data.get(position).text);
+                            block=data.get(position).text;
                         }else if(data.get(position).getInfo_type()=="gun"){
                             UnivDetail.senddata.setGun(data.get(position).text);
+                            jh=data.get(position).text;
                         }else if(data.get(position).getInfo_type()=="j_block"){
                             UnivDetail.senddata.setJ_block(data.get(position).text);
+                            block=data.get(position).text;
                         }
                         else{
                             Log.d("error","error");
                         }
                         Log.d("click","click");
-                        EventBus.getDefault().post(new DataEvent(data.get(position).text));
+                        String choice=sj+" "+jh+" "+block;
+                        EventBus.getDefault().post(new DataEvent(choice));
                     }
                 });
                 break;

@@ -27,6 +27,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
 
+    int a;
+    public HomeFragment(int a){
+        this.a=a;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

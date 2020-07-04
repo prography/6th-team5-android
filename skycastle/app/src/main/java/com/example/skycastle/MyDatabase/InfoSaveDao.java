@@ -18,6 +18,12 @@ public interface InfoSaveDao {
     @Query("SELECT DISTINCT university, sj FROM InfoSave")
     public List<univ_img> findUniv();
 
+    @Query("SELECT DISTINCT university, sj, jh FROM InfoSave WHERE university LIKE :name")
+    public List<JhData> findJhData(String name);
+
+    @Query("SELECT DISTINCT university, sj, block FROM InfoSave WHERE university LIKE :name")
+    public List<BlockData> findBlokcData(String name);
+
     @Insert
     void insert(List<InfoSave> infoSaves);
 
