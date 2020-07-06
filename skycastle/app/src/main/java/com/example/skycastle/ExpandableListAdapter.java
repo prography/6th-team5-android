@@ -104,23 +104,16 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        if(data.get(position).getInfo_type()=="sj") {
+                        if(data.get(position).getInfo_type().equals("sj")) {
                             Log.d("1",data.get(position).text);
                             UnivDetail.senddata.setSj(data.get(position).text);
                             sj=data.get(position).text;
                             Log.d("1",UnivDetail.senddata.getSj());
-                        }else if(data.get(position).getInfo_type()=="susi_j"){
-                            UnivDetail.senddata.setSusi_j(data.get(position).text);
+                        }else if(data.get(position).getInfo_type().equals("jh")){
+                            UnivDetail.senddata.setJh(data.get(position).text);
                             jh=data.get(position).text;
-                            Log.d("1",UnivDetail.senddata.getSusi_j());
-                        }else if(data.get(position).getInfo_type()=="s_block"){
-                            UnivDetail.senddata.setS_block(data.get(position).text);
-                            block=data.get(position).text;
-                        }else if(data.get(position).getInfo_type()=="gun"){
-                            UnivDetail.senddata.setGun(data.get(position).text);
-                            jh=data.get(position).text;
-                        }else if(data.get(position).getInfo_type()=="j_block"){
-                            UnivDetail.senddata.setJ_block(data.get(position).text);
+                        }else if(data.get(position).getInfo_type().equals("major")){
+                            UnivDetail.senddata.setMajor(data.get(position).text);
                             block=data.get(position).text;
                         }
                         else{
@@ -128,7 +121,11 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         }
                         Log.d("click","click");
                         String choice=sj+" "+jh+" "+block;
-                        EventBus.getDefault().post(new DataEvent(choice));
+                        DataEvent dataEvent=new DataEvent(choice);
+                        dataEvent.setSj(sj);
+                        dataEvent.setJh(jh);
+                        dataEvent.setMajor(block);
+                        EventBus.getDefault().post(dataEvent);
                     }
                 });
                 break;

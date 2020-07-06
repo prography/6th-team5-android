@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.example.skycastle.MyDatabase.BlockData;
 import com.example.skycastle.MyDatabase.JhData;
+import com.example.skycastle.ServerData.ServerData;
+import com.example.skycastle.ServerData.jhs;
+import com.example.skycastle.ServerData.sjs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,11 +29,94 @@ import java.util.List;
 public class UnivDetail extends Activity {
     private RecyclerView recyclerview;
     static Univ_ServerSend senddata=new Univ_ServerSend();
+    //List<UnivDetail_Item> data = new ArrayList<>();
+    ServerData detailData;
+    String sj="";
+    String jh="";
+    String major="";
+    List<jhs> jhsList;
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void testEvent(DataEvent event){
+        List<UnivDetail_Item> data = new ArrayList<>();
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        if(!event.getSj().equals("")) sj=event.getSj();
+        if(!event.getJh().equals("")) jh=event.getJh();
+        if(!event.getMajor().equals("")) major=event.getMajor();
+
+        if(!sj.equals("")&&jh.equals("")&&major.equals("")){
+            data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, sj,"sj"));
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시","sj"));
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시","sj"));
+            if(sj.equals("수시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "전형선택","jh"));
+                for(int i=0;i<detailData.getSjs().get(0).getJhs().size();i++){
+                    data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.getSjs().get(0).getJhs().get(i).getName(),"jh"));
+                }
+            }else if(sj.equals("정시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "군 선택","jh"));
+                for(int i=0;i<detailData.getSjs().get(1).getJhs().size();i++){
+                    data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.getSjs().get(1).getJhs().get(i).getName(),"jh"));
+                }
+            }
+        }else if(!sj.equals("")&&!jh.equals("")&&major.equals("")){
+            data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, sj,"sj"));
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시","sj"));
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시","sj"));
+            if(sj.equals("수시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, jh,"jh"));
+                for(int i=0;i<detailData.getSjs().get(0).getJhs().size();i++){
+                    jhsList=detailData.getSjs().get(0).getJhs();
+                    data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.getSjs().get(0).getJhs().get(i).getName(),"jh"));
+                }
+            }else if(sj.equals("정시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, jh,"jh"));
+                for(int i=0;i<detailData.getSjs().get(1).getJhs().size();i++){
+                    jhsList=detailData.getSjs().get(1).getJhs();
+                    data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.getSjs().get(1).getJhs().get(i).getName(),"jh"));
+                }
+            }
+            data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "학과 선택","major"));
+            for(int j=0;j<jhsList.size();j++){
+                if(jhsList.get(j).getName().equals(jh)){
+                    for(int k=0;k<jhsList.get(j).getMajors().size();k++){
+                        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, jhsList.get(j).getMajors().get(k).getName(),"major"));
+                    }
+                }
+            }
+        }else if(!sj.equals("")&&!jh.equals("")&&!major.equals("")){
+            data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, sj,"sj"));
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시","sj"));
+            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시","sj"));
+            if(sj.equals("수시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, jh,"jh"));
+                for(int i=0;i<detailData.getSjs().get(0).getJhs().size();i++){
+                    jhsList=detailData.getSjs().get(0).getJhs();
+                    data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.getSjs().get(0).getJhs().get(i).getName(),"jh"));
+                }
+            }else if(sj.equals("정시")){
+                data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, jh,"jh"));
+                for(int i=0;i<detailData.getSjs().get(1).getJhs().size();i++){
+                    jhsList=detailData.getSjs().get(1).getJhs();
+                    data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.getSjs().get(1).getJhs().get(i).getName(),"jh"));
+                }
+            }
+            data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, major,"major"));
+            for(int j=0;j<jhsList.size();j++){
+                if(jhsList.get(j).getName().equals(jh)){
+                    for(int k=0;k<jhsList.get(j).getMajors().size();k++){
+                        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, jhsList.get(j).getMajors().get(k).getName(),"major"));
+                    }
+                }
+            }
+        }
+        recyclerview.setAdapter(new ExpandableListAdapter(data,detailData.getName()));
+
         TextView name_t = findViewById(R.id.univ_name);
-        name_t.setText(event.eventText);
+        String select_t=sj+" "+jh+" "+major+" ";
+        name_t.setText(select_t);
+        recyclerview = findViewById(R.id.detail_recyclerview);
     }
 
     @Override
@@ -44,56 +130,28 @@ public class UnivDetail extends Activity {
         }catch(Exception e){}
 
         Intent intent2 = getIntent();
-        List<JhData> detailData = (List<JhData>) intent2.getSerializableExtra("jhData");
-        List<BlockData> blockData = (List<BlockData>) intent2.getSerializableExtra("blockData");
-        Log.d("intent",detailData.get(0).getSj());
+        detailData = (ServerData) intent2.getSerializableExtra("univ_data");
+        Log.d("intent",detailData.getSjs().get(0).getSj());
 
         TextView name_t = findViewById(R.id.univ_name);
-        name_t.setText(detailData.get(0).getUniversity());
+        name_t.setText(detailData.getName());
 
+        List<UnivDetail_Item> data = new ArrayList<>();
         recyclerview = findViewById(R.id.detail_recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        List<UnivDetail_Item> data = new ArrayList<>();
+
         data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "정시/수시","sj"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "정시","sj"));
         data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "수시","sj"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "수시전형선택","susi_j"));
-        int detail_size=detailData.size();
-        for(int i=0;i<detail_size;i++){
-            if(detailData.get(i).getSj().equals("수시")){
-                Log.d("???","dddd");
-            data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, detailData.get(i).getJh(),"susi_j"));
-            }
-        }
-        data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "수시학과","s_block"));
 
-        int block_s=blockData.size();
-        for(int j=0;j<block_s;j++){
-            if(blockData.get(j).getSj().equals("수시")){
-                data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, blockData.get(j).getBlock(),"s_block"));
-            }
-        }
-        data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "정시 군","gun"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "가군","gun"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "나군","gun"));
-        data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, "다군","gun"));
-
-        data.add(new UnivDetail_Item(ExpandableListAdapter.HEADER, "정시학과","j_block"));
-
-        for(int k=0;k<block_s;k++){
-            if(blockData.get(k).getSj().equals("정시")){
-                data.add(new UnivDetail_Item(ExpandableListAdapter.CHILD, blockData.get(k).getBlock(),"j_block"));
-            }
-        }
-
-        recyclerview.setAdapter(new ExpandableListAdapter(data,detailData.get(0).getUniversity()));
+        recyclerview.setAdapter(new ExpandableListAdapter(data,detailData.getName()));
         Button okay;
         okay = findViewById(R.id.ok_button);
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SelectUnivPage.univ_serverSends.add(senddata);
-                Log.d("check",SelectUnivPage.univ_serverSends.get(0).getSusi_j());
+                Log.d("check",SelectUnivPage.univ_serverSends.get(0).getSj());
 
                 finish();
             }

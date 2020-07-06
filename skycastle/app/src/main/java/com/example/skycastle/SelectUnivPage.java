@@ -15,6 +15,7 @@ import android.widget.Button;
 import com.example.skycastle.MyDatabase.AppDatabase;
 import com.example.skycastle.MyDatabase.InfoSave;
 import com.example.skycastle.MyDatabase.univ_img;
+import com.example.skycastle.ServerData.ServerData;
 import com.example.skycastle.UnivSchdule.UnivSchdule;
 
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ public class SelectUnivPage extends AppCompatActivity {
     recyclerAdapter adapter;
     GridLayoutManager layoutManager;
     List<InfoSave> univData = new ArrayList<InfoSave>();
-    List<UnivSchdule> univSchdules = new ArrayList<UnivSchdule>();
-    List<univ_img> list = new ArrayList<univ_img>();
+    List<ServerData> univSchdules = new ArrayList<ServerData>();
+    List<ServerData> list = new ArrayList<ServerData>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
     Thread thread;
     Button button;
@@ -51,11 +52,13 @@ public class SelectUnivPage extends AppCompatActivity {
         button=findViewById(R.id.fin);
 
         android_id = Settings.Secure.getString(this.getContentResolver(),Settings.Secure.ANDROID_ID);
+        //android_id="123";
         Log.d("Android_ID >>> ", android_id);
 
         Intent intent = getIntent();
-        list=(List<univ_img>) intent.getSerializableExtra("univ_n");
-        Log.d("intent",list.get(0).getSj());
+        list=(List<ServerData>) intent.getSerializableExtra("univ_n");
+        Log.d("check1", list.get(0).getName());
+        //Log.d("intent",list.get(0).getSj());
 
         final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
         recyclerView = (RecyclerView)findViewById(R.id.univ_recycler_view);
@@ -93,7 +96,7 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://125.130.100.2:8000/")
+                .baseUrl("http://125.130.100.2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -105,86 +108,31 @@ public class SelectUnivPage extends AppCompatActivity {
         map.put("id",send_t);
         for(int i=0; i<univ_serverSends.size();i++){
             Univ_ServerSend t_data=univ_serverSends.get(i);
-            if(univ_serverSends.get(i).getSj()=="수시"){
-                send_t=send_t+"&univ"+i+"="+t_data.getUniv_n()+"&sj"+i+"=수시&jh"+i+"="+t_data.getSusi_j()
-                        +"&block"+i+"="+t_data.getS_block();
                 map.put("univ"+i,t_data.getUniv_n());
-                map.put("sj"+i,"수시");
-                map.put("jh"+i,t_data.getSusi_j());
-                map.put("block"+i,t_data.getS_block());
-            }else{
-                send_t=send_t+"&univ"+i+"="+t_data.getUniv_n()+"&sj"+i+"=정시&gun"+i+"="+t_data.getGun()
-                        +"&block"+i+"="+t_data.getJ_block();
-                map.put("univ"+i,t_data.getUniv_n());
-                map.put("sj"+i,"정시");
-                map.put("gun"+i,t_data.getGun());
-                map.put("block"+i,t_data.getJ_block());
-            }
+                map.put("sj"+i,t_data.getSj());
+                map.put("jh"+i,t_data.getJh());
+                map.put("block"+i,t_data.getMajor());
         }
         Log.d("text", send_t);
         final RemoteService2 remote = retrofit.create(RemoteService2.class);
 
-        Call<List<UnivSchdule>> call = remote.getSendData(map);
+        Call<List<ServerData>> call = remote.getSendData(map);
         Log.d("onResponse", "3");
-        call.enqueue(new Callback<List<UnivSchdule>>() {
+        call.enqueue(new Callback<List<ServerData>>() {
 
             @Override
-            public void onResponse(Call<List<UnivSchdule>> call, Response<List<UnivSchdule>> response) {
+            public void onResponse(Call<List<ServerData>> call, Response<List<ServerData>> response) {
                 String test;
-
+                if (!response.isSuccessful()) {
+                    Log.d("code",Integer.toString(response.code()));
+                    return;
+                }
                 try{
                     univSchdules = response.body();
 
                     int size=univSchdules.size();
                     Log.d("onResponse", "4");
-                    final ArrayList<InfoSave> infoSaves=new ArrayList<InfoSave>();
-                    /*for(int i=0;i<size;i++){
-                        String univ=univSchdules.get(i).getUniv();
-                        String sj=univSchdules.get(i).getSj();
-                        String jh=univSchdules.get(i).getJh();
-                        String block=univSchdules.get(i).getBlock();
-                        ArrayList<schedules> schedules=univSchdules.get(i).getSchedules();
-                        for(int j=0;j<schedules.size();j++) {
-                            InfoSave infoSave = new InfoSave();
-                            String description = schedules.get(j).getDescription();
-                            String start_date = schedules.get(j).getStart_date();
-                            String end_date = schedules.get(j).getEnd_date();
-                            infoSave.setUniv(univ);
-                            infoSave.setSj(sj);
-                            infoSave.setJh(jh);
-                            infoSave.setBlock(block);
-                            infoSave.setDescription(description);
-                            infoSave.setStart_date(start_date);
-                            infoSave.setEnd_date(end_date);
-                            infoSaves.add(infoSave);
-                            Log.d("description", infoSave.getDescription());
-                            Log.d("start_date", start_date);
-                            Log.d("end_date", end_date);
-                        }
-                    }*/
-                    final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
 
-                    Runnable runnable1=new Runnable() {
-                        @Override
-                        public void run() {
-                            for(int k=0;k<infoSaves.size();k++){
-                                //f_list=db.infoSaveDao().findListWithCity(infoSaves.get(k));
-                            }
-                        }
-                    };
-                    thread = new Thread(runnable1);
-                    thread.start();
-
-                    Runnable runnable2=new Runnable() {
-                        @Override
-                        public void run() {
-                            for(int j=0;j<infoSaves.size();j++){
-                                //db.infoSaveDao().insert(infoSaves.get(j));
-                            }
-                        }
-                    };
-                    thread = new Thread(runnable2);
-                    thread.start();
                 }catch (Exception e){
                     Log.d("onResponse", "Error");
                     e.printStackTrace();
@@ -192,7 +140,7 @@ public class SelectUnivPage extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<UnivSchdule>> call, Throwable t) {
+            public void onFailure(Call<List<ServerData>> call, Throwable t) {
 
             }
         });

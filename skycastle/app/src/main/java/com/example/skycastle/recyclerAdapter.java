@@ -18,13 +18,14 @@ import com.example.skycastle.MyDatabase.AppDatabase;
 import com.example.skycastle.MyDatabase.BlockData;
 import com.example.skycastle.MyDatabase.JhData;
 import com.example.skycastle.MyDatabase.univ_img;
+import com.example.skycastle.ServerData.ServerData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemViewHolder>{
-    private List<univ_img> listData;
+    private List<ServerData> listData;
     private Context context;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private ItemViewHolder holder;
@@ -34,7 +35,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
     Thread thread;
     List<BlockData> blockData=new ArrayList<BlockData>();
 
-    public recyclerAdapter(Context context, List<univ_img> list,AppDatabase db){
+    public recyclerAdapter(Context context, List<ServerData> list, AppDatabase db){
         this.context = (Context) context;
         this.listData = list;
         this.db=db;
@@ -57,7 +58,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
         return listData.size();
     }
 
-    void addItem(univ_img data) {
+    void addItem(ServerData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
@@ -66,7 +67,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
         private TextView textView;
         private ImageView u_icon;
         private ConstraintLayout list_con;
-        private  univ_img data;
+        private  ServerData data;
         private int position;
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -78,48 +79,27 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition() ;
-                    final String name=listData.get(pos).getUniversity();
+                    final String name=listData.get(pos).getName();
+                    String logo=listData.get(pos).getLogo();
                     Log.d("uname",name);
-
-                    Runnable runnable1=new Runnable() {
-                        @Override
-                        public void run() {
-                            blockData= db.infoSaveDao().findBlokcData(name);
-                            Log.d("uname2",blockData.get(0).getBlock());
-                        }
-                    };
-                    thread = new Thread(runnable1);
-                    thread.start();
-
-                    Runnable runnable2=new Runnable() {
-                        @Override
-                        public void run() {
-                            List<JhData> jhData= db.infoSaveDao().findJhData(name);
-                            try{
-                                Thread.sleep(200);
-                            }catch(InterruptedException e){
-
-                            }
-                            Log.d("uname2",blockData.get(0).getBlock());
-                            Log.d("uname2",jhData.get(0).getJh());
+                    for(int i=0;i<listData.size();i++){
+                        if(listData.get(i).getName().equals(name)){
+                            ServerData univ_data=listData.get(i);
                             Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
-                            intent.putExtra("jhData", (Serializable) jhData);
-                            intent.putExtra("blockData", (Serializable) blockData);
+                            intent.putExtra("univ_data", (Serializable) univ_data);
                             context.startActivity(intent);
                         }
-                    };
-                    Thread thread2 = new Thread(runnable2);
-                    thread2.start();
+                    }
 
                 }
             });
         }
 
-        public void onBind(univ_img univList, int position) {
+        public void onBind(ServerData univList, int position) {
             this.data = univList;
             this.position = position;
-            final String name = data.getUniversity();
-            final String image = data.getSj();
+            final String name = data.getName();
+            //final String image = data.getSj();
 
             textView.setText(name);
             //u_icon.set
