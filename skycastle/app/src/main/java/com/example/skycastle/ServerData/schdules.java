@@ -3,12 +3,21 @@ package com.example.skycastle.ServerData;
 import java.io.Serializable;
 
 public class schdules implements Serializable {
+    int is_valid;
     String description;
     String start_date;
     String end_date;
 
     public String getDescription() {
         return description;
+    }
+
+    public int getIs_valid() {
+        return is_valid;
+    }
+
+    public void setIs_valid(int is_valid) {
+        this.is_valid = is_valid;
     }
 
     public void setDescription(String description) {

@@ -1,6 +1,7 @@
 package com.example.skycastle.Home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skycastle.R;
+import com.example.skycastle.ServerData.ServerData;
+import com.example.skycastle.ServerData.schdules;
 import com.example.skycastle.SettingFragment;
 import com.example.skycastle.BaseActivity;
 
@@ -26,11 +29,12 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
+    List<ServerData> univData = new ArrayList<ServerData>();
 
-    int a;
-    public HomeFragment(int a){
-        this.a=a;
+    public HomeFragment(List<ServerData> univData){
+        this.univData=univData;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,15 +47,34 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         List<HomeItem> data = new ArrayList<>();
-        data.add(new HomeItem(HomeAdapter.HEADER, "seoul","서울대학교", "지역균형선발전형", "2020-06-23"));
-        data.add(new HomeItem(HomeAdapter.CHILD, "seoul","서울대학교", "일반전형", "2020-06-21"));
-        data.add(new HomeItem(HomeAdapter.CHILD, "seoul","서울대학교", "기회균형선발특별전형", "2019-12-17"));
-        data.add(new HomeItem(HomeAdapter.HEADER, "hanyang","한양대학교", "지역균형선발전형", "2019-09-06"));
-        data.add(new HomeItem(HomeAdapter.CHILD, "hanyang","한양대학교", "일반전형", "2019-11-21"));
-        data.add(new HomeItem(HomeAdapter.CHILD, "hanyang","한양대학교", "기회균형선발특별전형", "2019-12-17"));
-        data.add(new HomeItem(HomeAdapter.HEADER, "yonsei","연세대학교", "지역균형선발전형", "2019-09-06"));
-        data.add(new HomeItem(HomeAdapter.CHILD, "yonsei","연세대학교", "일반전형", "2019-11-21"));
-        data.add(new HomeItem(HomeAdapter.CHILD, "yonsei","연세대학교", "기회균형선발특별전형", "2019-12-17"));
+
+        for(int i=0;i<univData.size();i++){
+            for(int j=0;j<univData.get(i).getSjs().size();j++){
+                for(int k=0;k<univData.get(i).getSjs().get(j).getJhs().size();k++){
+                    for(int l=0;l<univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().size();l++){
+                        int check=0;
+                        for(int m=0;m<univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().size();m++){
+                            schdules scd=univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().get(m);
+                            if(scd.getIs_valid()==1){
+                                if(check==0){
+                                    data.add(new HomeItem(HomeAdapter.HEADER, univData.get(i).getLogo(),univData.get(i).getName()
+                                            +" "+scd.getDescription(),
+                                            univData.get(i).getSjs().get(j).getSj()+" "+univData.get(i).getSjs().get(j).getJhs().get(k).getName(),
+                                            scd.getStart_date()));
+                                    check=1;
+                                }else{
+                                    data.add(new HomeItem(HomeAdapter.CHILD, univData.get(i).getLogo(),univData.get(i).getName(),
+                                            scd.getDescription(),
+                                            scd.getStart_date()));
+                                }
+                            }
+                            Log.d("test",scd.getEnd_date());
+                            //if(scd.get)
+                        }
+                    }
+                }
+            }
+        }
 
         homeAdapter = new HomeAdapter(getContext(), data);
 

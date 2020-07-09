@@ -7,7 +7,6 @@ public class ServerData implements Serializable {
     String name;
     String logo;
     String review_url;
-    String like;
     ArrayList<sjs> sjs;
 
     public String getName() {
@@ -32,14 +31,6 @@ public class ServerData implements Serializable {
 
     public void setReview_url(String review_url) {
         this.review_url = review_url;
-    }
-
-    public String getLike() {
-        return like;
-    }
-
-    public void setLike(String like) {
-        this.like = like;
     }
 
     public ArrayList<sjs> getSjs() {

@@ -79,7 +79,7 @@ public class PolicyPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://125.130.100.2/")
+                .baseUrl("http://ec2-54-180-101-171.ap-northeast-2.compute.amazonaws.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

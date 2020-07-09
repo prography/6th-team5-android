@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -66,7 +67,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
         private ImageView u_icon;
-        private ConstraintLayout list_con;
+        private LinearLayout list_con;
         private  ServerData data;
         private int position;
 

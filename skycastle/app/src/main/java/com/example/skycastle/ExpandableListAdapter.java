@@ -27,7 +27,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public ExpandableListAdapter(List<UnivDetail_Item> data,String name) {
         this.data = data;
-        UnivDetail.senddata.setUniv_n(name);
+
     }
 
     @Override
@@ -106,20 +106,19 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     public void onClick(View v) {
                         if(data.get(position).getInfo_type().equals("sj")) {
                             Log.d("1",data.get(position).text);
-                            UnivDetail.senddata.setSj(data.get(position).text);
+                            //UnivDetail.senddata.setSj(data.get(position).text);
                             sj=data.get(position).text;
-                            Log.d("1",UnivDetail.senddata.getSj());
+                            //Log.d("1",UnivDetail.senddata.getSj());
                         }else if(data.get(position).getInfo_type().equals("jh")){
-                            UnivDetail.senddata.setJh(data.get(position).text);
+                           // UnivDetail.senddata.setJh(data.get(position).text);
                             jh=data.get(position).text;
                         }else if(data.get(position).getInfo_type().equals("major")){
-                            UnivDetail.senddata.setMajor(data.get(position).text);
+                            //UnivDetail.senddata.setMajor(data.get(position).text);
                             block=data.get(position).text;
                         }
                         else{
                             Log.d("error","error");
                         }
-                        Log.d("click","click");
                         String choice=sj+" "+jh+" "+block;
                         DataEvent dataEvent=new DataEvent(choice);
                         dataEvent.setSj(sj);

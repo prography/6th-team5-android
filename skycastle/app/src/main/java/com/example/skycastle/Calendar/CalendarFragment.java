@@ -1,6 +1,7 @@
 package com.example.skycastle.Calendar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +17,11 @@ import androidx.fragment.app.Fragment;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.example.skycastle.Home.HomeAdapter;
+import com.example.skycastle.Home.HomeItem;
 import com.example.skycastle.R;
+import com.example.skycastle.ServerData.ServerData;
+import com.example.skycastle.ServerData.schdules;
 import com.example.skycastle.SettingFragment;
 import com.example.skycastle.BaseActivity;
 
@@ -24,10 +29,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CalendarFragment extends Fragment {
     private Fragment fragment;
+    List<ServerData> univData = new ArrayList<ServerData>();
+    Calendar calendar;
+    public CalendarFragment(List<ServerData> univData){
+        this.univData=univData;
+    }
+    int dYear, dMonth, dDay;
+    EventDay ed;
+    Map<EventDay,DayClass> eventMap = new HashMap<>();
+    DayClass dc=new DayClass();
 
     @Nullable
     @Override
@@ -36,14 +52,63 @@ public class CalendarFragment extends Fragment {
         setHasOptionsMenu(true);
 
         List<EventDay> events = new ArrayList<>();
-
         CalendarView calendarView = (CalendarView)rootView.findViewById(R.id.calendarView);
-        Calendar calendar = Calendar.getInstance();
-        events.add(new EventDay(calendar, R.drawable.ic_bookmark));
+        calendar = Calendar.getInstance();
+        ed=new EventDay(calendar, R.drawable.ic_bookmark);
+        events.add(ed);
 
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(2020, 6, 5);
-        events.add(new EventDay(calendar2, R.drawable.ic_bookmark));
+        for(int i=0;i<univData.size();i++){
+            for(int j=0;j<univData.get(i).getSjs().size();j++){
+                for(int k=0;k<univData.get(i).getSjs().get(j).getJhs().size();k++){
+                    for(int l=0;l<univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().size();l++){
+                        int check=0;
+                        for(int m=0;m<univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().size();m++){
+                            schdules scd=univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().get(m);
+                            //start_date
+                            String[] targetSlicing = scd.getStart_date().split("-");
+                            dYear = Integer.parseInt(targetSlicing[0]);
+                            dMonth = Integer.parseInt(targetSlicing[1]);
+                            dDay = Integer.parseInt(targetSlicing[2]);
+                            calendar = Calendar.getInstance();
+                            calendar.set(dYear, dMonth-1, dDay);
+                            ed=new EventDay(calendar, R.drawable.ic_bookmark);
+
+                            String t1=univData.get(i).getName()+" "
+                                    +univData.get(i).getSjs().get(j).getSj()+" "
+                                    +univData.get(i).getSjs().get(j).getJhs().get(k).getName()
+                                    +univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName();
+                            dc.setUniv_info(t1);
+                            dc.setLogo(univData.get(i).getLogo());
+                            dc.setDescription(scd.getDescription());
+                            dc.setHour(targetSlicing[3]);
+                            dc.setMinute(targetSlicing[4]);
+                            eventMap.put(ed,dc);
+                            events.add(ed);
+
+                            //end_date
+                            String[] targetSlicing2 = scd.getEnd_date().split("-");
+                            dYear = Integer.parseInt(targetSlicing2[0]);
+                            dMonth = Integer.parseInt(targetSlicing2[1]);
+                            dDay = Integer.parseInt(targetSlicing2[2]);
+                            calendar = Calendar.getInstance();
+                            calendar.set(dYear, dMonth-1, dDay);
+                            ed=new EventDay(calendar, R.drawable.ic_bookmark);
+                            String t2=univData.get(i).getName()+" "
+                                    +univData.get(i).getSjs().get(j).getSj()+" "
+                                    +univData.get(i).getSjs().get(j).getJhs().get(k).getName()
+                                    +univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName();
+                            dc.setUniv_info(t2);
+                            dc.setLogo(univData.get(i).getLogo());
+                            dc.setDescription(scd.getDescription());
+                            dc.setHour(targetSlicing2[3]);
+                            dc.setMinute(targetSlicing2[4]);
+                            eventMap.put(ed,dc);
+                            events.add(ed);//시작일이랑 끝이랑 아이콘 다르게
+                        }
+                    }
+                }
+            }
+        }
 
         // 달력 보여주는 범위 정하기
         Calendar min = Calendar.getInstance();
@@ -61,8 +126,8 @@ public class CalendarFragment extends Fragment {
                         eventDay.getCalendar().getTime().toString() + " "
                                 + eventDay.isEnabled(),
                         Toast.LENGTH_SHORT).show();
-
-                CalendarOneDayListFragment dialogFragment = new CalendarOneDayListFragment();
+                DayClass now_dc= eventMap.get(eventDay);
+                CalendarOneDayListFragment dialogFragment = new CalendarOneDayListFragment(eventDay.getCalendar().getTime().toString(),now_dc);
                 dialogFragment.show(getActivity().getSupportFragmentManager(), "dialog");
             }
         });

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.skycastle.MyDatabase.BlockData;
 import com.example.skycastle.MyDatabase.JhData;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class UnivDetail extends Activity {
     private RecyclerView recyclerview;
-    static Univ_ServerSend senddata=new Univ_ServerSend();
+    Univ_ServerSend senddata=new Univ_ServerSend();
     //List<UnivDetail_Item> data = new ArrayList<>();
     ServerData detailData;
     String sj="";
@@ -117,6 +118,9 @@ public class UnivDetail extends Activity {
         String select_t=sj+" "+jh+" "+major+" ";
         name_t.setText(select_t);
         recyclerview = findViewById(R.id.detail_recyclerview);
+        senddata.setSj(sj);
+        senddata.setJh(jh);
+        senddata.setMajor(major);
     }
 
     @Override
@@ -132,7 +136,7 @@ public class UnivDetail extends Activity {
         Intent intent2 = getIntent();
         detailData = (ServerData) intent2.getSerializableExtra("univ_data");
         Log.d("intent",detailData.getSjs().get(0).getSj());
-
+        senddata.setUniv_n(detailData.getName());
         TextView name_t = findViewById(R.id.univ_name);
         name_t.setText(detailData.getName());
 
@@ -150,10 +154,19 @@ public class UnivDetail extends Activity {
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectUnivPage.univ_serverSends.add(senddata);
-                Log.d("check",SelectUnivPage.univ_serverSends.get(0).getSj());
+                if(senddata.getSj()==null||senddata.getJh()==null||senddata.getMajor()==null){
+                    Toast myToast = Toast.makeText(getApplicationContext(),"전형,학과를 모두 골라주세요", Toast.LENGTH_SHORT);
+                    myToast.show();
+                }else{
+                    String selected_t=senddata.getUniv_n()+" "+senddata.getSj()+" "+senddata.getJh()+" "+senddata.getMajor();
+                    DataEvent_selected dataEvent2=new DataEvent_selected(selected_t);
+                    EventBus.getDefault().post(dataEvent2);
 
-                finish();
+                    SelectUnivPage.univ_serverSends.add(senddata);
+                    Log.d("check",SelectUnivPage.univ_serverSends.get(0).getSj());
+                    finish();
+                }
+
             }
         });
     }

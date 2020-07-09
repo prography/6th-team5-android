@@ -1,7 +1,9 @@
 package com.example.skycastle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -9,6 +11,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,7 +21,12 @@ import com.example.skycastle.MyDatabase.AppDatabase;
 import com.example.skycastle.MyDatabase.InfoSave;
 import com.example.skycastle.MyDatabase.univ_img;
 import com.example.skycastle.ServerData.ServerData;
-import com.example.skycastle.UnivSchdule.UnivSchdule;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,16 +47,41 @@ public class SelectUnivPage extends AppCompatActivity {
     List<ServerData> univSchdules = new ArrayList<ServerData>();
     List<ServerData> list = new ArrayList<ServerData>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
+    static ArrayList<String> selected_list=new ArrayList<String>();
     Thread thread;
     Button button;
     public SharedPreferences prefs;
     boolean isFirstRun;
     String android_id;
+    String token;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void testEvent(DataEvent_selected event){
+        selected_list.add(event.eventText);
+        RecyclerView mRecyclerView2 = findViewById(R.id.select_recycler);
+        RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(SelectUnivPage.this);
+        mRecyclerView2.setLayoutManager(mLayoutManager2);
+        recyclerAdapter_selected list_adapter2 = new recyclerAdapter_selected(SelectUnivPage.this, selected_list);
+        mRecyclerView2.setAdapter(list_adapter2);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_univ_page);
+
+        try {
+            //FirebaseApp.initializeApp(this);
+            String token = FirebaseInstanceId.getInstance().getToken();
+            Log.d("IDService","device token : "+token);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            EventBus.getDefault().register(this);
+        }catch(Exception e){}
+
         prefs = getSharedPreferences("Pref2", MODE_PRIVATE);
         isFirstRun = prefs.getBoolean("isFirstRun", true);
         button=findViewById(R.id.fin);
@@ -76,6 +111,13 @@ public class SelectUnivPage extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        RecyclerView mRecyclerView2 = findViewById(R.id.select_recycler);
+        RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(SelectUnivPage.this);
+        mRecyclerView2.setLayoutManager(mLayoutManager2);
+        recyclerAdapter_selected list_adapter2 = new recyclerAdapter_selected(SelectUnivPage.this, selected_list);
+        mRecyclerView2.setAdapter(list_adapter2);
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +127,7 @@ public class SelectUnivPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         if (isFirstRun==false){
             finish();
         }
@@ -96,28 +139,31 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("onResponse", "1");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://125.130.100.2/")
+                .baseUrl("http://ec2-54-180-101-171.ap-northeast-2.compute.amazonaws.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Log.d("onResponse", "2");
-        Map map=new HashMap();
+        HashMap<String,String> datamap=new HashMap<>();
 
         String send_t=android_id;
 
-        map.put("id",send_t);
+        datamap.put("id",send_t);
+        datamap.put("token",token);
+        datamap.put("num",Integer.toString(univ_serverSends.size()));
         for(int i=0; i<univ_serverSends.size();i++){
             Univ_ServerSend t_data=univ_serverSends.get(i);
-                map.put("univ"+i,t_data.getUniv_n());
-                map.put("sj"+i,t_data.getSj());
-                map.put("jh"+i,t_data.getJh());
-                map.put("block"+i,t_data.getMajor());
+                datamap.put("univ"+i,t_data.getUniv_n());
+                datamap.put("sj"+i,t_data.getSj());
+                datamap.put("jh"+i,t_data.getJh());
+                datamap.put("major"+i,t_data.getMajor());
         }
         Log.d("text", send_t);
         final RemoteService2 remote = retrofit.create(RemoteService2.class);
 
-        Call<List<ServerData>> call = remote.getSendData(map);
-        Log.d("onResponse", "3");
+        Call<List<ServerData>> call = remote.getSendData(datamap);
+
+        Log.d("onResponse",call.toString());
         call.enqueue(new Callback<List<ServerData>>() {
 
             @Override
@@ -156,5 +202,13 @@ public class SelectUnivPage extends AppCompatActivity {
             prefs.edit().putBoolean("isFirstRun", false).apply();
         }
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        try{
+            EventBus.getDefault().unregister(this);
+        }catch (Exception e){}
     }
 }

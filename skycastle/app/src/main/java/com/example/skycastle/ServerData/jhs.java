@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class jhs implements Serializable {
     String name;
-    String like;
     ArrayList<majors> majors;
 
     public String getName() {
@@ -14,14 +13,6 @@ public class jhs implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLike() {
-        return like;
-    }
-
-    public void setLike(String like) {
-        this.like = like;
     }
 
     public ArrayList<majors> getMajors() {

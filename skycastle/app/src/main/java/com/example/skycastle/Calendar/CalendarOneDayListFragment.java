@@ -10,9 +10,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.applandeo.materialcalendarview.EventDay;
 import com.example.skycastle.R;
 
+import java.util.Map;
+
 public class CalendarOneDayListFragment extends DialogFragment {
+    String time;
+    DayClass now_map;
+
+    public CalendarOneDayListFragment(String time, DayClass now_map){
+        this.time=time;
+        this.now_map=now_map;
+    }
 
     @Nullable
     @Override
