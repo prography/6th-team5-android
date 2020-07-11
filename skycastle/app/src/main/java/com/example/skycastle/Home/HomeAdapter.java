@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.skycastle.R;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int HEADER = 0;
     public static final int CHILD = 1;
-    private Context context;
+    public Context context;
 
     List<HomeItem> items;
 
@@ -64,15 +65,23 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (item.getShowType()) {
             case HEADER:
                 final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;
-                itemController.setItem(item);
+                itemController.setItem(item,context);
                 itemController.setOnItemClickListener(itemClickListener);
 
                 // Check Box Click Listen
                 if (itemController.checkBox.isSelected()) {
-                    itemController.checkBox.setImageResource(R.drawable.ic_arrow_down);
+                    Glide.with(context).load(item.getUnivId()).into(itemController.checkBox);
+
+                    itemController.checkBox.setImageResource(
+
+                            context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
+                    );
                 }
                 else {
+                    Glide.with(context).load(item.getUnivId()).into(itemController.checkBox);
+
                     itemController.checkBox.setImageResource(
+
                             context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
                     );
                 }
@@ -178,6 +187,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static class ListHeaderViewHolder extends RecyclerView.ViewHolder {
         TextView universityTextView;
         TextView applyTypeTextView;
+        TextView majorTextView;
         TextView dayTextView;
         ImageView checkBox;
         ImageView dropdownImageView;
@@ -192,14 +202,30 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             dayTextView = itemView.findViewById(R.id.dayTextView);
             checkBox = itemView.findViewById(R.id.checkBox);
             dropdownImageView = itemView.findViewById(R.id.dropdownImageView);
+            majorTextView=itemView.findViewById(R.id.major_t);
         }
 
-        public void setItem(HomeItem item) {
+        public void setItem(HomeItem item, Context context) {
             universityTextView.setText(item.getUniversityName());
             applyTypeTextView.setText(item.getApplyType());
             dayTextView.setText(getDday(item.getDay()));
             checkBox.setSelected(false);
+            majorTextView.setText(item.getMajor());
+            if(item.getUnivId()!=null){
+                Glide.with(context).load(item.getUnivId()).into(checkBox);
+            }else{
+                checkBox.setImageDrawable(null);
+            }
+
+
+
+            /*checkBox.setImageResource(
+
+                    context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
+            );*/
+
             dropdownImageView.setImageResource(R.drawable.ic_arrow_down);
+
             refferalItem = item;
         }
 
@@ -252,17 +278,20 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static class ListChildViewHolder extends RecyclerView.ViewHolder {
         TextView list_child_type;
         TextView list_child_day;
+        TextView list_end_day;
         HomeItem refferalItem;
 
         public ListChildViewHolder(View itemView) {
             super(itemView);
             list_child_type = (TextView) itemView.findViewById(R.id.textView_list_child_type);
             list_child_day = (TextView) itemView.findViewById(R.id.textView_list_child_day);
+            list_end_day=itemView.findViewById(R.id.textVie_end_day);
         }
 
         public void setItem(HomeItem item) {
             list_child_type.setText(item.getApplyType());
             list_child_day.setText(getDday(item.getDay()));
+            list_end_day.setText((getDday(item.getEnd_day())));
             refferalItem = item;
         }
     }

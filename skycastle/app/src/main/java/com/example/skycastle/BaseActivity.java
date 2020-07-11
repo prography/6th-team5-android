@@ -44,7 +44,7 @@ public class BaseActivity extends AppCompatActivity{
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private HomeFragment homeFragment;
     private CalendarFragment calendarFragment;
-    private ReviewFragment reviewFragment = new ReviewFragment();
+    private ReviewFragment reviewFragment;
     List<ServerData> univData = new ArrayList<ServerData>();
     List<ServerData> LikeData=new ArrayList<ServerData>();
     String android_id;
@@ -118,6 +118,7 @@ public class BaseActivity extends AppCompatActivity{
 
                     homeFragment=new HomeFragment(univData);
                     calendarFragment=new CalendarFragment(univData);
+                    reviewFragment = new ReviewFragment(univData);
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.main_container, homeFragment).commitAllowingStateLoss();

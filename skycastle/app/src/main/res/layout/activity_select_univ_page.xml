@@ -55,7 +55,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/select_recycler"
         android:layout_width="397dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="76dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

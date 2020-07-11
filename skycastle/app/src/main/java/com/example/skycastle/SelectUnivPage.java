@@ -47,7 +47,7 @@ public class SelectUnivPage extends AppCompatActivity {
     List<ServerData> univSchdules = new ArrayList<ServerData>();
     List<ServerData> list = new ArrayList<ServerData>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
-    static ArrayList<String> selected_list=new ArrayList<String>();
+    ArrayList<String> selected_list=new ArrayList<String>();
     Thread thread;
     Button button;
     public SharedPreferences prefs;
@@ -70,9 +70,10 @@ public class SelectUnivPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_univ_page);
 
+
         try {
             //FirebaseApp.initializeApp(this);
-            String token = FirebaseInstanceId.getInstance().getToken();
+            token = FirebaseInstanceId.getInstance().getToken();
             Log.d("IDService","device token : "+token);
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -93,6 +94,17 @@ public class SelectUnivPage extends AppCompatActivity {
         Intent intent = getIntent();
         list=(List<ServerData>) intent.getSerializableExtra("univ_n");
         Log.d("check1", list.get(0).getName());
+        ArrayList<Univ_ServerSend> temp_serverSends=(ArrayList<Univ_ServerSend>) intent.getSerializableExtra("univ_selected");
+
+        if(temp_serverSends!=null){
+            univ_serverSends=temp_serverSends;
+            for(int i=0;i<univ_serverSends.size();i++){
+                String temp=univ_serverSends.get(i).getUniv_n()+" "+univ_serverSends.get(i).getSj()+" "
+                        +univ_serverSends.get(i).getJh()+" "+univ_serverSends.get(i).getMajor();
+                selected_list.add(temp);
+            }
+        }
+
         //Log.d("intent",list.get(0).getSj());
 
         final AppDatabase db=AppDatabase.getAppDatabase(getApplicationContext());
@@ -125,12 +137,14 @@ public class SelectUnivPage extends AppCompatActivity {
                 setRetrofit2();
                 Intent intent=new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
+                selected_list=null;
+                finish();
             }
         });
-
-        if (isFirstRun==false){
+        Log.d("checkfirstrun",Boolean.toString(isFirstRun));
+        /*if (!isFirstRun){
             finish();
-        }
+        }*/
     }
 
 

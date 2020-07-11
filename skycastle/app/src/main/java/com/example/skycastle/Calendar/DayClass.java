@@ -6,6 +6,7 @@ public class DayClass {
     String description;
     String hour;
     String minute;
+    int s_or_e;
 
     public String getUniv_info() {
         return univ_info;
@@ -45,5 +46,13 @@ public class DayClass {
 
     public void setMinute(String minute) {
         this.minute = minute;
+    }
+
+    public int getS_or_e() {
+        return s_or_e;
+    }
+
+    public void setS_or_e(int s_or_e) {
+        this.s_or_e = s_or_e;
     }
 }

@@ -66,6 +66,7 @@ public class PolicyPage extends AppCompatActivity {
                 // 전체 약관 체크여부
                 if (TERMS_AGREE_1 == 1) {
                     setRetrofit();
+                    finish();
                 }
                 else {
                     Toast toast = Toast.makeText(getApplicationContext(),"약관을 체크해주세요",Toast.LENGTH_SHORT);

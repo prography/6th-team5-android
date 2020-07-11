@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.skycastle.MyDatabase.AppDatabase;
 import com.example.skycastle.MyDatabase.BlockData;
 import com.example.skycastle.MyDatabase.JhData;
@@ -52,6 +53,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.ItemViewHolder holder, int position) {
         holder.onBind(listData.get(position),position);
+        ImageView u_icon = view.findViewById(R.id.u_image);
+
     }
 
     @Override
@@ -100,10 +103,15 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
             this.data = univList;
             this.position = position;
             final String name = data.getName();
-            //final String image = data.getSj();
+            final String image = data.getLogo();
 
             textView.setText(name);
-            //u_icon.set
+            //Glide.with(context).load(image).into(u_icon);
+            if(image!=null){
+                Glide.with(context).load(image).into(u_icon);
+            }else{
+                holder.u_icon.setImageDrawable(null);
+            }
         }
     }
 }

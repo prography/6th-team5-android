@@ -11,13 +11,15 @@ public class HomeItem {
     private List<HomeItem> invisibleChildren;
     private String univId;
 
-    public HomeItem(int st, String ui, String un, String an, String dn) {
+    public HomeItem(int st, String ui, String un, String an, String dn, String ed,String major) {
         setShowType(st);
         setUnivId(ui);
         setUniversityName(un);
         setApplyType(an);
         setDay(dn);
         setSelected(false);
+        setEnd_day(ed);
+        setMajor(major);
     }
 
     public Drawable getIcon() {
@@ -57,6 +59,8 @@ public class HomeItem {
     private String applyType;
     private String day;
     private Boolean isSelected;
+    private String end_day;
+    private String major;
 
     public String getUniversityName() {
         return universityName;
@@ -88,5 +92,21 @@ public class HomeItem {
 
     public void setSelected(Boolean selected) {
         isSelected = selected;
+    }
+
+    public String getEnd_day() {
+        return end_day;
+    }
+
+    public void setEnd_day(String end_day) {
+        this.end_day = end_day;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
     }
 }

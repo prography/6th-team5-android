@@ -1,6 +1,8 @@
 package com.example.skycastle;
 
-public class Univ_ServerSend {
+import java.io.Serializable;
+
+public class Univ_ServerSend implements Serializable {
     String univ_n;
     String sj;
     String jh;

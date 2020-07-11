@@ -4,12 +4,12 @@ import android.graphics.drawable.Drawable;
 
 public class ReviewItem {
     private String univName;
-    private Drawable iconDrawble;
+    private String icon;
     private String url;
 
-    public ReviewItem(String univName, Drawable icon, String url) {
+    public ReviewItem(String univName, String icon, String url) {
         this.univName = univName;
-        this.iconDrawble = icon;
+        this.icon = icon;
         this.url = url;
     }
 
@@ -21,12 +21,12 @@ public class ReviewItem {
         this.univName = univName;
     }
 
-    public Drawable getIconDrawble() {
-        return iconDrawble;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setIconDrawble(Drawable iconDrawble) {
-        this.iconDrawble = iconDrawble;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getUrl() {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skycastle.BaseActivity;
 import com.example.skycastle.R;
+import com.example.skycastle.ServerData.ServerData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,11 @@ import java.util.List;
 public class ReviewFragment extends Fragment {
     private RecyclerView recyclerView;
     private ReviewAdapter reviewAdapter;
+    List<ServerData> univData_r = new ArrayList<ServerData>();
+
+    public ReviewFragment(List<ServerData> univData){
+        this.univData_r=univData;
+    }
 
     @Nullable
     @Override
@@ -30,11 +36,10 @@ public class ReviewFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
         List<ReviewItem> data = new ArrayList<ReviewItem>();
-        data.add(new ReviewItem("서울대학교", getActivity().getDrawable(R.drawable.seoul), "https://www.univ100.kr/review/55"));
-        data.add(new ReviewItem("연세대학교", getActivity().getDrawable(R.drawable.yonsei), "https://www.univ100.kr/review/1"));
-        data.add(new ReviewItem("한양대학교", getActivity().getDrawable(R.drawable.hanyang), "https://www.univ100.kr/review/6"));
+        for(int i=0;i<univData_r.size();i++){
+            data.add(new ReviewItem(univData_r.get(i).getName(), univData_r.get(i).getLogo(), univData_r.get(i).getReview_url()));
+        }
 
         reviewAdapter = new ReviewAdapter(getContext(), data);
         recyclerView.setAdapter(reviewAdapter);

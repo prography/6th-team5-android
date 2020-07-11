@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.skycastle.R;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ReviewItem item = items.get(position);
 
-        holder.setItem(item);
+        holder.setItem(item,context);
 
         holder.setOnItemClickListener(listener);
     }
@@ -92,9 +93,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             });
         }
 
-        public void setItem(ReviewItem item) {
+        public void setItem(ReviewItem item,Context context) {
             univTextView.setText(item.getUnivName());
-            univImageView.setImageDrawable(item.getIconDrawble());
+            Glide.with(context).load(item.getIcon()).into(univImageView);
         }
 
         public void setOnItemClickListener(OnItemClickListener listener) {

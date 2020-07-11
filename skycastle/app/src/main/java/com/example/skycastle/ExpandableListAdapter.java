@@ -48,6 +48,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 TextView itemTextView = new TextView(context);
                 itemTextView.setPadding(subItemPaddingLeft, subItemPaddingTopAndBottom, 0, subItemPaddingTopAndBottom);
                 itemTextView.setTextColor(0x88000000);
+                itemTextView.setFontFeatureSettings("@font/nanumsquare_r");
                 itemTextView.setLayoutParams(
                         new ViewGroup.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -67,9 +68,9 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 itemController.refferalItem = item;
                 itemController.header_title.setText(item.text);
                 if (item.invisibleChildren == null) {
-                    itemController.btn_expand_toggle.setImageResource(R.drawable.cancleicon);
+                    itemController.btn_expand_toggle.setImageResource(R.drawable.ic_arrow_up);
                 } else {
-                    itemController.btn_expand_toggle.setImageResource(R.drawable.plusicon);
+                    itemController.btn_expand_toggle.setImageResource(R.drawable.ic_arrow_down);
                 }
                 itemController.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -83,7 +84,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 count++;
                             }
                             notifyItemRangeRemoved(pos + 1, count);
-                            itemController.btn_expand_toggle.setImageResource(R.drawable.plusicon);
+                            itemController.btn_expand_toggle.setImageResource(R.drawable.ic_arrow_down);
                         } else {
                             int pos = data.indexOf(itemController.refferalItem);
                             int index = pos + 1;
@@ -92,7 +93,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 index++;
                             }
                             notifyItemRangeInserted(pos + 1, index - pos - 1);
-                            itemController.btn_expand_toggle.setImageResource(R.drawable.cancleicon);
+                            itemController.btn_expand_toggle.setImageResource(R.drawable.ic_arrow_up);
                             item.invisibleChildren = null;
                         }
                     }

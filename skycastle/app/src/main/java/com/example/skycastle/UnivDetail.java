@@ -11,9 +11,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.skycastle.MyDatabase.BlockData;
 import com.example.skycastle.MyDatabase.JhData;
 import com.example.skycastle.ServerData.ServerData;
@@ -140,6 +142,13 @@ public class UnivDetail extends Activity {
         TextView name_t = findViewById(R.id.univ_name);
         name_t.setText(detailData.getName());
 
+        ImageView logo=findViewById(R.id.logoView);
+        if(detailData.getLogo()!=null){
+            Glide.with(this).load(detailData.getLogo()).into(logo);
+        }else{
+            logo.setImageDrawable(null);
+        }
+
         List<UnivDetail_Item> data = new ArrayList<>();
         recyclerview = findViewById(R.id.detail_recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -154,7 +163,8 @@ public class UnivDetail extends Activity {
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(senddata.getSj()==null||senddata.getJh()==null||senddata.getMajor()==null){
+                if(senddata.getSj()==null||senddata.getJh()==null||senddata.getMajor()==null||senddata.getSj().equals("")||
+                        senddata.getJh().equals("")||senddata.getMajor().equals("")){
                     Toast myToast = Toast.makeText(getApplicationContext(),"전형,학과를 모두 골라주세요", Toast.LENGTH_SHORT);
                     myToast.show();
                 }else{
