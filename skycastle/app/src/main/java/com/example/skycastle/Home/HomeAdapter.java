@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,41 +69,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemController.setItem(item,context);
                 itemController.setOnItemClickListener(itemClickListener);
 
-                // Check Box Click Listen
-                if (itemController.checkBox.isSelected()) {
-                    Glide.with(context).load(item.getUnivId()).into(itemController.checkBox);
-
-                    itemController.checkBox.setImageResource(
-
-                            context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
-                    );
-                }
-                else {
-                    Glide.with(context).load(item.getUnivId()).into(itemController.checkBox);
-
-                    itemController.checkBox.setImageResource(
-
-                            context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
-                    );
-                }
-                itemController.checkBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        boolean flag = !itemController.checkBox.isSelected();
-                        itemController.checkBox.setSelected(flag);
-                        items.get(position).setSelected(flag);
-
-                        if (flag) {
-                            itemController.checkBox.setImageResource(R.drawable.ic_arrow_down);
-                        }
-                        else {
-                            itemController.checkBox.setImageResource(
-                                    context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
-                            );
-                        }
-                    }
-                });
-
                 if (item.getInvisibleChildren() == null) {
                     itemController.dropdownImageView.setImageResource(R.drawable.ic_arrow_up);
                 }
@@ -110,7 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     itemController.dropdownImageView.setImageResource(R.drawable.ic_arrow_down);
                 }
                 // Drop down Image Click Listen
-                itemController.dropdownImageView.setOnClickListener(new View.OnClickListener() {
+                itemController.fullview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (item.getInvisibleChildren() == null) {
@@ -192,6 +158,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView checkBox;
         ImageView dropdownImageView;
         HomeItem refferalItem;
+        LinearLayout fullview;
 
         OnItemClickListener itemClickListener;
 
@@ -203,6 +170,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             checkBox = itemView.findViewById(R.id.checkBox);
             dropdownImageView = itemView.findViewById(R.id.dropdownImageView);
             majorTextView=itemView.findViewById(R.id.major_t);
+            fullview=itemView.findViewById(R.id.fullview);
         }
 
         public void setItem(HomeItem item, Context context) {
@@ -216,14 +184,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }else{
                 checkBox.setImageDrawable(null);
             }
-
-
-
-            /*checkBox.setImageResource(
-
-                    context.getResources().getIdentifier(item.getUnivId(),"drawable",context.getPackageName())
-            );*/
-
             dropdownImageView.setImageResource(R.drawable.ic_arrow_down);
 
             refferalItem = item;
@@ -290,8 +250,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void setItem(HomeItem item) {
             list_child_type.setText(item.getApplyType());
-            list_child_day.setText(getDday(item.getDay()));
-            list_end_day.setText((getDday(item.getEnd_day())));
+            String targetDay=item.getDay();
+            String[] targetSlicing = targetDay.split("-");
+            int dYear = Integer.parseInt(targetSlicing[0]);
+            int dMonth = Integer.parseInt(targetSlicing[1]);
+            int dDay = Integer.parseInt(targetSlicing[2]);
+            String date_t=dMonth+"월 "+dDay+"일";
+            list_child_day.setText(date_t);
+
+            targetDay=item.getEnd_day();
+            targetSlicing = targetDay.split("-");
+            dYear = Integer.parseInt(targetSlicing[0]);
+            dMonth = Integer.parseInt(targetSlicing[1]);
+            dDay = Integer.parseInt(targetSlicing[2]);
+            date_t=dMonth+"월 "+dDay+"일";
+            list_end_day.setText(date_t);
+
             refferalItem = item;
         }
     }

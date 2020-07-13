@@ -71,24 +71,35 @@ public class HomeFragment extends Fragment {
                         serversend_d.setJh(myunivData.get(i).getSjs().get(j).getJhs().get(k).getName());
                         serversend_d.setMajor(myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName());
                         my_univ_serverSends.add(serversend_d);
+                        HomeItem headitem=null;
+                        List<HomeItem> childList=new ArrayList<>();
                         for(int m=0;m<myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().size();m++){
                             schdules scd=myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().get(m);
                             if(scd.getIs_valid()==1){
                                 if(check==0){
-                                    data.add(new HomeItem(HomeAdapter.HEADER, myunivData.get(i).getLogo(),myunivData.get(i).getName()
+                                    headitem=new HomeItem(HomeAdapter.HEADER, myunivData.get(i).getLogo(),myunivData.get(i).getName()
                                             +" "+scd.getDescription(),
                                             myunivData.get(i).getSjs().get(j).getSj()+" "+myunivData.get(i).getSjs().get(j).getJhs().get(k).getName(),
-                                            scd.getStart_date(),scd.getEnd_date(),myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName()));
+                                            scd.getStart_date(),scd.getEnd_date(),myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName());
+                                    data.add(headitem);
+
+                                    HomeItem childitem=new HomeItem(HomeAdapter.CHILD, myunivData.get(i).getLogo(),myunivData.get(i).getName(),
+                                            scd.getDescription(),
+                                            scd.getStart_date(),scd.getEnd_date(),myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName());
+                                    //data.add(childitem);
+                                    childList.add(childitem);
                                     check=1;
                                 }else{
-                                    data.add(new HomeItem(HomeAdapter.CHILD, myunivData.get(i).getLogo(),myunivData.get(i).getName(),
+                                    HomeItem childitem=new HomeItem(HomeAdapter.CHILD, myunivData.get(i).getLogo(),myunivData.get(i).getName(),
                                             scd.getDescription(),
-                                            scd.getStart_date(),scd.getEnd_date(),myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName()));
+                                            scd.getStart_date(),scd.getEnd_date(),myunivData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName());
+                                    //data.add(childitem);
+                                    childList.add(childitem);
                                 }
                             }
                             Log.d("test",scd.getEnd_date());
                             //if(scd.get)
-                        }
+                        }headitem.setInvisibleChildren(childList);
                     }
                 }
             }

@@ -47,7 +47,7 @@ public class SelectUnivPage extends AppCompatActivity {
     List<ServerData> univSchdules = new ArrayList<ServerData>();
     List<ServerData> list = new ArrayList<ServerData>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
-    ArrayList<String> selected_list=new ArrayList<String>();
+    ArrayList<String> selected_list;
     Thread thread;
     Button button;
     public SharedPreferences prefs;
@@ -69,7 +69,7 @@ public class SelectUnivPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_univ_page);
-
+        selected_list=new ArrayList<String>();
 
         try {
             //FirebaseApp.initializeApp(this);

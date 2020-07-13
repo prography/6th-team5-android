@@ -82,7 +82,7 @@ public class CalendarFragment extends Fragment {
                                 dc.setHour(targetSlicing[3]);
                                 dc.setMinute(targetSlicing[4]);
                                 dc.setS_or_e(0);
-                            if(eventMap.get(ed)==null){
+                            if(eventMap.get(calendar)==null){
                                 List<DayClass> dc_list=new ArrayList<DayClass>();
                                 dc_list.add(dc);
                                 eventMap.put(calendar,dc_list);
@@ -116,7 +116,7 @@ public class CalendarFragment extends Fragment {
                                 dc.setMinute(targetSlicing2[4]);
                                 dc.setS_or_e(1);
 
-                                if(eventMap.get(ed)==null){
+                                if(eventMap.get(calendar)==null){
                                     List<DayClass> dc_list=new ArrayList<DayClass>();
                                     dc_list.add(dc);
                                     eventMap.put(calendar,dc_list);
