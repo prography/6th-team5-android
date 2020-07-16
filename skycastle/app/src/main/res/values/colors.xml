@@ -8,4 +8,5 @@
     <color name="nav_unchecked">#263238</color>
     
     <color name="white">#ffffff</color>
+    <color name="transparent">#1A000000</color>
 </resources>

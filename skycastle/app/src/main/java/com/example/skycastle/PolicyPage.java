@@ -3,6 +3,7 @@ package com.example.skycastle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -37,12 +38,13 @@ public class PolicyPage extends AppCompatActivity {
     Thread thread;
     List<ServerData> univData = new ArrayList<ServerData>();
     List<univ_img>univ_n=new ArrayList<univ_img>();
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_policy_page);
-
+        activity = this;
         nextBtn = (Button)findViewById(R.id.nextBtn);
         checkbox = (AppCompatCheckBox)findViewById(R.id.checkbox);
         policyview = (TextView)findViewById(R.id.Policyview);
@@ -65,8 +67,10 @@ public class PolicyPage extends AppCompatActivity {
             public void onClick(View v) {
                 // 전체 약관 체크여부
                 if (TERMS_AGREE_1 == 1) {
+                    Intent intent_loading = new Intent(activity, LoadingActivity.class);
+                    startActivity(intent_loading);
                     setRetrofit();
-                    finish();
+                    //finish();
                 }
                 else {
                     Toast toast = Toast.makeText(getApplicationContext(),"약관을 체크해주세요",Toast.LENGTH_SHORT);
@@ -105,7 +109,7 @@ public class PolicyPage extends AppCompatActivity {
                     Intent intent=new Intent(getApplicationContext(), SelectUnivPage.class);
                     intent.putExtra("univ_n", (Serializable) univData);
                     startActivity(intent);
-
+                    finish();
                 }catch (Exception e){
                     Log.d("onResponse", "Error");
                     e.printStackTrace();

@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.applandeo.materialcalendarview.EventDay;
+import com.example.skycastle.Calendar.DayClass;
 import com.example.skycastle.Home.HomeAdapter;
 import com.example.skycastle.Home.HomeItem;
 import com.example.skycastle.R;
@@ -28,7 +30,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +53,8 @@ public class BaseActivity extends AppCompatActivity{
     List<ServerData> univData = new ArrayList<ServerData>();
     List<ServerData> LikeData=new ArrayList<ServerData>();
     String android_id;
+    Map<Calendar,List<DayClass>> eventMap = new HashMap<>();
+    List<EventDay> events = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +124,90 @@ public class BaseActivity extends AppCompatActivity{
 
 
                     homeFragment=new HomeFragment(univData);
-                    calendarFragment=new CalendarFragment(univData);
+
+                    for(int i=0;i<univData.size();i++){
+                        for(int j=0;j<univData.get(i).getSjs().size();j++){
+                            for(int k=0;k<univData.get(i).getSjs().get(j).getJhs().size();k++){
+                                for(int l=0;l<univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().size();l++){
+                                    int check=0;
+                                    for(int m=0;m<univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().size();m++){
+                                        schdules scd=univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().get(m);
+                                        //start_date
+                                        if(scd.getStart_date()!=null){
+                                            String[] targetSlicing = scd.getStart_date().split("-");
+                                            int dYear = Integer.parseInt(targetSlicing[0]);
+                                            int dMonth = Integer.parseInt(targetSlicing[1]);
+                                            int dDay = Integer.parseInt(targetSlicing[2]);
+                                            Calendar calendar = Calendar.getInstance();
+                                            calendar.set(dYear, dMonth-1, dDay);
+                                            EventDay ed=new EventDay(calendar, R.drawable.cal_icon);
+                                            DayClass dc=new DayClass();
+                                            String t1=univData.get(i).getName()+" "
+                                                    +univData.get(i).getSjs().get(j).getSj()+" "
+                                                    +univData.get(i).getSjs().get(j).getJhs().get(k).getName()
+                                                    +univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName();
+                                            dc.setUniv_info(t1);
+                                            dc.setLogo(univData.get(i).getLogo());
+                                            dc.setDescription(scd.getDescription());
+                                            dc.setHour(targetSlicing[3]);
+                                            dc.setMinute(targetSlicing[4]);
+                                            dc.setS_or_e(0);
+                                            if(eventMap.get(calendar)==null){
+                                                List<DayClass> dc_list=new ArrayList<DayClass>();
+                                                dc_list.add(dc);
+                                                eventMap.put(calendar,dc_list);
+                                                events.add(ed);
+                                            }else{
+                                                eventMap.get(calendar).add(dc);
+                                                //events.add(ed);
+                                            }
+                                        }
+
+                                        //end_date
+                                        Log.d("end_Date",scd.getEnd_date());
+                                        if(scd.getEnd_date()!=null) {
+                                            String[] targetSlicing2 = scd.getEnd_date().split("-");
+                                            int dYear = Integer.parseInt(targetSlicing2[0]);
+                                            int dMonth = Integer.parseInt(targetSlicing2[1]);
+                                            int dDay = Integer.parseInt(targetSlicing2[2]);
+                                            Calendar calendar = Calendar.getInstance();
+                                            calendar.set(dYear, dMonth - 1, dDay);
+                                            EventDay ed = new EventDay(calendar, R.drawable.cal_icon);
+
+                                            String t2 = univData.get(i).getName() + " "
+                                                    + univData.get(i).getSjs().get(j).getSj() + " "
+                                                    + univData.get(i).getSjs().get(j).getJhs().get(k).getName() + " "
+                                                    + univData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getName();
+                                            DayClass dc=new DayClass();
+                                            dc.setUniv_info(t2);
+                                            dc.setLogo(univData.get(i).getLogo());
+                                            dc.setDescription(scd.getDescription());
+                                            dc.setHour(targetSlicing2[3]);
+                                            dc.setMinute(targetSlicing2[4]);
+                                            dc.setS_or_e(1);
+
+                                            if(eventMap.get(calendar)==null){
+                                                List<DayClass> dc_list=new ArrayList<DayClass>();
+                                                dc_list.add(dc);
+                                                eventMap.put(calendar,dc_list);
+                                                events.add(ed);
+                                            }else{
+                                                eventMap.get(calendar).add(dc);
+                                                //events.add(ed);
+                                            }//시작일이랑 끝이랑 아이콘 다르게
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Calendar calendar = Calendar.getInstance();
+                    EventDay ed=new EventDay(calendar, R.drawable.cal_icon);
+                    if(eventMap.get(calendar)==null){
+                        events.add(ed);
+                    }
+                    calendarFragment=new CalendarFragment(univData,eventMap,events);
                     reviewFragment = new ReviewFragment(univData);
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

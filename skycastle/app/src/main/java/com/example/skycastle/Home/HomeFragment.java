@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.skycastle.LoadingActivity;
 import com.example.skycastle.R;
 import com.example.skycastle.RemoteService;
 import com.example.skycastle.SelectUnivPage;
@@ -130,13 +131,17 @@ public class HomeFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_home_add:
                 //Toast.makeText(getActivity(), "menu_home_add", Toast.LENGTH_SHORT).show();
+                Intent intent_loading = new Intent(getActivity(), LoadingActivity.class);
+                startActivity(intent_loading);
                 setRetrofit();
                 break;
             case R.id.menu_home_remove:
+                Intent intent_loading2 = new Intent(getActivity(), LoadingActivity.class);
+                startActivity(intent_loading2);
                 setRetrofit();
                 break;
             case R.id.menu_home_setting:
-                Toast.makeText(getActivity(), "menu_home_setting", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "menu_home_setting", Toast.LENGTH_SHORT).show();
                 ((BaseActivity)getActivity()).replaceFragment(new SettingFragment());
                 break;
         }
