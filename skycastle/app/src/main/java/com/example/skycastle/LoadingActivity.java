@@ -21,7 +21,7 @@ public class LoadingActivity extends Activity {
             public void run() {
                 finish();
             }
-        }, 5000);
+        }, 1000);
     }
 
 }

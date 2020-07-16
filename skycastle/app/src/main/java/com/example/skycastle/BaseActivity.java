@@ -60,6 +60,8 @@ public class BaseActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        Intent intent_loading = new Intent(this, LoadingActivity.class);
+        startActivity(intent_loading);
         android_id = Settings.Secure.getString(this.getContentResolver(),Settings.Secure.ANDROID_ID);
         // Setting toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);

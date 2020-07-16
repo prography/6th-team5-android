@@ -21,6 +21,7 @@ import com.example.skycastle.MyDatabase.AppDatabase;
 import com.example.skycastle.MyDatabase.InfoSave;
 import com.example.skycastle.MyDatabase.univ_img;
 import com.example.skycastle.ServerData.ServerData;
+import com.example.skycastle.ServerData_full.ServerData_full;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -45,7 +46,7 @@ public class SelectUnivPage extends AppCompatActivity {
     GridLayoutManager layoutManager;
     List<InfoSave> univData = new ArrayList<InfoSave>();
     List<ServerData> univSchdules = new ArrayList<ServerData>();
-    List<ServerData> list = new ArrayList<ServerData>();
+    List<ServerData_full> list = new ArrayList<ServerData_full>();
     static ArrayList<Univ_ServerSend> univ_serverSends=new ArrayList<Univ_ServerSend>();
     ArrayList<String> selected_list;
     Thread thread;
@@ -92,7 +93,7 @@ public class SelectUnivPage extends AppCompatActivity {
         Log.d("Android_ID >>> ", android_id);
 
         Intent intent = getIntent();
-        list=(List<ServerData>) intent.getSerializableExtra("univ_n");
+        list=(List<ServerData_full>) intent.getSerializableExtra("univ_n");
         Log.d("check1", list.get(0).getName());
         ArrayList<Univ_ServerSend> temp_serverSends=(ArrayList<Univ_ServerSend>) intent.getSerializableExtra("univ_selected");
 

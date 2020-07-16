@@ -21,13 +21,14 @@ import com.example.skycastle.MyDatabase.BlockData;
 import com.example.skycastle.MyDatabase.JhData;
 import com.example.skycastle.MyDatabase.univ_img;
 import com.example.skycastle.ServerData.ServerData;
+import com.example.skycastle.ServerData_full.ServerData_full;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemViewHolder>{
-    private List<ServerData> listData;
+    private List<ServerData_full> listData;
     private Context context;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private ItemViewHolder holder;
@@ -37,7 +38,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
     Thread thread;
     List<BlockData> blockData=new ArrayList<BlockData>();
 
-    public recyclerAdapter(Context context, List<ServerData> list, AppDatabase db){
+    public recyclerAdapter(Context context, List<ServerData_full> list, AppDatabase db){
         this.context = (Context) context;
         this.listData = list;
         this.db=db;
@@ -62,7 +63,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
         return listData.size();
     }
 
-    void addItem(ServerData data) {
+    void addItem(ServerData_full data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
@@ -71,7 +72,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
         private TextView textView;
         private ImageView u_icon;
         private LinearLayout list_con;
-        private  ServerData data;
+        private  ServerData_full data;
         private int position;
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -88,7 +89,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
                     Log.d("uname",name);
                     for(int i=0;i<listData.size();i++){
                         if(listData.get(i).getName().equals(name)){
-                            ServerData univ_data=listData.get(i);
+                            ServerData_full univ_data=listData.get(i);
                             Intent intent=new Intent(context.getApplicationContext(), UnivDetail.class);
                             intent.putExtra("univ_data", (Serializable) univ_data);
                             context.startActivity(intent);
@@ -99,7 +100,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ItemVi
             });
         }
 
-        public void onBind(ServerData univList, int position) {
+        public void onBind(ServerData_full univList, int position) {
             this.data = univList;
             this.position = position;
             final String name = data.getName();

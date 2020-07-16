@@ -19,6 +19,7 @@ import com.example.skycastle.MyDatabase.AppDatabase;
 import com.example.skycastle.MyDatabase.InfoSave;
 import com.example.skycastle.MyDatabase.univ_img;
 import com.example.skycastle.ServerData.ServerData;
+import com.example.skycastle.ServerData_full.ServerData_full;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class PolicyPage extends AppCompatActivity {
     AppCompatCheckBox checkbox;
     TextView policyview;
     Thread thread;
-    List<ServerData> univData = new ArrayList<ServerData>();
+    List<ServerData_full> univData = new ArrayList<ServerData_full>();
     List<univ_img>univ_n=new ArrayList<univ_img>();
     Activity activity;
 
@@ -91,12 +92,12 @@ public class PolicyPage extends AppCompatActivity {
         Log.d("onResponse", "2");
 
         final RemoteService remote = retrofit.create(RemoteService.class);
-        Call<List<ServerData>> call = remote.getUnivData();
+        Call<List<ServerData_full>> call = remote.getUnivData();
 
-        call.enqueue(new Callback<List<ServerData>>() {
+        call.enqueue(new Callback<List<ServerData_full>>() {
 
             @Override
-            public void onResponse(Call<List<ServerData>> call, Response<List<ServerData>> response) {
+            public void onResponse(Call<List<ServerData_full>> call, Response<List<ServerData_full>> response) {
                 String test;
 
                 try{
@@ -117,7 +118,7 @@ public class PolicyPage extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<ServerData>> call, Throwable t) {
+            public void onFailure(Call<List<ServerData_full>> call, Throwable t) {
 
             }
         });

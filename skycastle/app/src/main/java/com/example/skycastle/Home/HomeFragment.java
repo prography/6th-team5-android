@@ -24,6 +24,7 @@ import com.example.skycastle.RemoteService;
 import com.example.skycastle.SelectUnivPage;
 import com.example.skycastle.ServerData.ServerData;
 import com.example.skycastle.ServerData.schdules;
+import com.example.skycastle.ServerData_full.ServerData_full;
 import com.example.skycastle.SettingFragment;
 import com.example.skycastle.BaseActivity;
 import com.example.skycastle.Univ_ServerSend;
@@ -154,6 +155,7 @@ public class HomeFragment extends Fragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     private void setRetrofit(){
 
         Log.d("onResponse", "1");
@@ -166,23 +168,23 @@ public class HomeFragment extends Fragment {
         Log.d("onResponse", "2");
 
         final RemoteService remote = retrofit.create(RemoteService.class);
-        Call<List<ServerData>> call = remote.getUnivData();
+        Call<List<ServerData_full>> call = remote.getUnivData();
 
-        call.enqueue(new Callback<List<ServerData>>() {
+        call.enqueue(new Callback<List<ServerData_full>>() {
 
             @Override
-            public void onResponse(Call<List<ServerData>> call, Response<List<ServerData>> response) {
+            public void onResponse(Call<List<ServerData_full>> call, Response<List<ServerData_full>> response) {
                 String test;
 
                 try{
-                    myunivData = response.body();
+                    List<ServerData_full> univData_full = response.body();
                     //Log.d("univdata", univData.get(0).getDescription());
 
-                    int size=myunivData.size();
-                    Log.d("check1", myunivData.get(0).getName());
+                    int size=univData_full.size();
+                    Log.d("check1", univData_full.get(0).getName());
 
                     Intent intent=new Intent(getActivity(), SelectUnivPage.class);
-                    intent.putExtra("univ_n", (Serializable) myunivData);
+                    intent.putExtra("univ_n", (Serializable) univData_full);
                     intent.putExtra("univ_selected",(Serializable) my_univ_serverSends);
                     startActivity(intent);
                     getActivity().finish();
@@ -194,7 +196,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<ServerData>> call, Throwable t) {
+            public void onFailure(Call<List<ServerData_full>> call, Throwable t) {
 
             }
         });

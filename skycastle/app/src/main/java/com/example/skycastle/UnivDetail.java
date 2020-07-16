@@ -21,6 +21,8 @@ import com.example.skycastle.MyDatabase.JhData;
 import com.example.skycastle.ServerData.ServerData;
 import com.example.skycastle.ServerData.jhs;
 import com.example.skycastle.ServerData.sjs;
+import com.example.skycastle.ServerData_full.ServerData_full;
+import com.example.skycastle.ServerData_full.jhs_full;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,11 +35,11 @@ public class UnivDetail extends Activity {
     private RecyclerView recyclerview;
     Univ_ServerSend senddata=new Univ_ServerSend();
     //List<UnivDetail_Item> data = new ArrayList<>();
-    ServerData detailData;
+    ServerData_full detailData;
     String sj="";
     String jh="";
     String major="";
-    List<jhs> jhsList;
+    List<jhs_full> jhsList;
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -136,7 +138,7 @@ public class UnivDetail extends Activity {
         }catch(Exception e){}
 
         Intent intent2 = getIntent();
-        detailData = (ServerData) intent2.getSerializableExtra("univ_data");
+        detailData = (ServerData_full) intent2.getSerializableExtra("univ_data");
         Log.d("intent",detailData.getSjs().get(0).getSj());
         senddata.setUniv_n(detailData.getName());
         TextView name_t = findViewById(R.id.univ_name);
