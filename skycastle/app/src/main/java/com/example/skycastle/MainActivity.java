@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(getApplicationContext(), PolicyPage.class);
                 startActivity(intent);*/
                 checkFirstRun();
+                finish();
             }
         });
         if (isFirstRun==false) {

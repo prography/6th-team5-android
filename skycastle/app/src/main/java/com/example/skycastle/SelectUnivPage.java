@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class SelectUnivPage extends AppCompatActivity {
     boolean isFirstRun;
     String android_id;
     String token;
+    Activity activity;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void testEvent(DataEvent_selected event){
@@ -71,7 +73,7 @@ public class SelectUnivPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_univ_page);
         selected_list=new ArrayList<String>();
-
+        activity=this;
         try {
             //FirebaseApp.initializeApp(this);
             token = FirebaseInstanceId.getInstance().getToken();
