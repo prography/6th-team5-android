@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.skycastle">
+    package="com.output.ipsi">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -15,19 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:networkSecurityConfig="@xml/network_security_config">
-        <activity android:name=".UnivDetail"
+        <activity android:name="com.output.ipsi.UnivDetail"
             android:theme="@style/popuptheme"/>
 
-        <activity android:name=".SelectUnivPage"
+        <activity android:name="com.output.ipsi.SelectUnivPage"
             android:theme="@style/customwidget"/>
 
-        <activity android:name=".PolicyPage"
+        <activity android:name="com.output.ipsi.PolicyPage"
             android:theme="@style/customwidget"/>
 
-        <activity android:name=".BaseActivity"
+        <activity android:name="com.output.ipsi.BaseActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.output.ipsi.MainActivity"
             android:theme="@style/customwidget">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,11 +36,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoadingActivity"
+        <activity android:name="com.output.ipsi.LoadingActivity"
             android:theme="@style/Transparent"/>
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name="com.output.ipsi.MyFirebaseMessagingService"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

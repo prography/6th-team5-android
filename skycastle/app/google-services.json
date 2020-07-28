@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1010565481435:android:90edb2193bcf46a3101dfe",
         "android_client_info": {
-          "package_name": "com.example.skycastle"
+          "package_name": "com.output.ipsi"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1010565481435-a0jabkdgapkpgbdle6pjessr616q20ek.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.skycastle",
+            "package_name": "com.output.ipsi",
             "certificate_hash": "4fb88bc65126c2b32346a39e37a137f2b475b55e"
           }
         },

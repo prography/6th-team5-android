@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="x"
+            android:text="✕"
             android:fontFamily="@font/nanumsquare_b"
             android:textColor="#606060"
             android:textSize="25sp" />
