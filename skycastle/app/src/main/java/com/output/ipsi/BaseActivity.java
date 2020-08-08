@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.applandeo.materialcalendarview.EventDay;
 import com.output.ipsi.Calendar.DayClass;
+import com.output.ipsi.Offline.OfflineFragment;
 import com.output.ipsi.R;
 import com.output.ipsi.Calendar.CalendarFragment;
 import com.output.ipsi.Home.HomeFragment;
@@ -42,6 +43,7 @@ public class BaseActivity extends AppCompatActivity{
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private HomeFragment homeFragment;
     private CalendarFragment calendarFragment;
+    private OfflineFragment offlineFragment;
     private ReviewFragment reviewFragment;
     List<ServerData> univData = new ArrayList<ServerData>();
     List<ServerData> LikeData=new ArrayList<ServerData>();
@@ -76,7 +78,7 @@ public class BaseActivity extends AppCompatActivity{
                     fragmentTransaction.replace(R.id.main_container, calendarFragment).commitAllowingStateLoss();
                     break;
                 case R.id.menu_review:
-                    fragmentTransaction.replace(R.id.main_container, reviewFragment).commitAllowingStateLoss();
+                    fragmentTransaction.replace(R.id.main_container, offlineFragment).commitAllowingStateLoss();
                     break;
             }
             return true;
@@ -202,6 +204,7 @@ public class BaseActivity extends AppCompatActivity{
                     }
                     calendarFragment=new CalendarFragment(univData,eventMap,events);
                     reviewFragment = new ReviewFragment(univData);
+                    offlineFragment=new OfflineFragment(univData);
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.main_container, homeFragment).commitAllowingStateLoss();

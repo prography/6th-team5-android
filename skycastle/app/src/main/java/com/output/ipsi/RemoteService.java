@@ -15,4 +15,8 @@ public interface RemoteService {
 
     @GET("/")
     Call<List<ServerData>> getMyData(@Query("id") String id);
+
+    @GET("/offline")
+    Call<List<ServerData>> getOffData();
+
 }

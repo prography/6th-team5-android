@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:gravity="bottom"
+    app:umanoDragView="@id/dragView"
+    app:umanoScrollableView="@id/choiceView"
+    app:umanoPanelHeight="70dp"
+    app:umanoOverlay="false"
+    app:umanoParallaxOffset="200dp"
+    app:umanoShadowHeight="10dp">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/offline_re"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/dragView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_arrow_up"
+            android:layout_marginTop="5dp"/>
+
+        <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/choiceView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
