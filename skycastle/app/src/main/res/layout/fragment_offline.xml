@@ -8,10 +8,11 @@
     android:gravity="bottom"
     app:umanoDragView="@id/dragView"
     app:umanoScrollableView="@id/choiceView"
-    app:umanoPanelHeight="70dp"
+    app:umanoPanelHeight="50dp"
     app:umanoOverlay="false"
-    app:umanoParallaxOffset="200dp"
-    app:umanoShadowHeight="10dp">
+    app:umanoParallaxOffset="150dp"
+    app:umanoShadowHeight="10dp"
+    app:umanoFadeColor="@android:color/transparent">
 
     <LinearLayout
     android:layout_width="match_parent"
@@ -45,7 +46,7 @@
 
             android:id="@+id/choiceView"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="200dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
