@@ -38,7 +38,7 @@ public class Off_select_recyclerview extends RecyclerView.Adapter<Off_select_rec
     @Override
     public Off_select_recyclerview.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.selected_recycler_view, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.offline_choiceview, parent, false);
         return new Off_select_recyclerview.ItemViewHolder(view);
     }
 
@@ -46,6 +46,7 @@ public class Off_select_recyclerview extends RecyclerView.Adapter<Off_select_rec
     @Override
     public void onBindViewHolder(@NonNull Off_select_recyclerview.ItemViewHolder holder, int position) {
         holder.onBind(selectedData.get(position),position);
+
     }
 
     @Override

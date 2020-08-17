@@ -17,6 +17,8 @@ import com.output.ipsi.DataEvent_selected;
 import com.output.ipsi.R;
 import com.output.ipsi.RemoteService;
 import com.output.ipsi.ServerData.ServerData;
+import com.output.ipsi.ServerData.jhs;
+import com.output.ipsi.ServerData.majors;
 import com.output.ipsi.ServerData.schdules;
 import com.output.ipsi.UnivReveiw.ReviewAdapter;
 
@@ -44,14 +46,67 @@ public class OfflineFragment extends Fragment {
     List<Integer> offdate_list;
     Offline_recyclerview offline_recyclerview;
     Off_select_recyclerview off_select_recyclerview;
+    String univ="";
+    String jh="";
+    String major="";
+    String type="";
+    ArrayList<jhs> jhs;
+    ArrayList<majors> majors;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void testEvent(DataEvent_offline event){
+        this.type=event.type;
+        if(type.equals("name")){
+            univ=event.eventText;
+            set_jh();
+        }else if(type.equals("jhs")){
+            jh=event.eventText;
+            set_major();
+        }else if(type.equals("majors")){
+            major=event.eventText;
+        }
+    }
+
+    public void set_jh(){
+        for(int i=0;i<offData.size();i++){
+            if(offData.get(i).getName().equals(univ)){
+                jhs=offData.get(i).getSjs().get(0).getJhs();
+                List<String> off_univs=new ArrayList<>();
+                for(int j=0;j<jhs.size();j++){
+                    off_univs.add(jhs.get(j).getName());
+                }
+                set_recyclerview(off_univs,"jhs");
+            }
+        }
+    }
+
+    public void set_major(){
+        for(int i=0;i<jhs.size();i++){
+            if(jhs.get(i).getName().equals(jh)){
+                majors=jhs.get(i).getMajors();
+                List<String> off_univs=new ArrayList<>();
+                for(int j=0;j<majors.size();j++){
+                    off_univs.add(majors.get(j).getName());
+                }
+                set_recyclerview(off_univs,"majors");
+            }
+        }
+    }
+
+    public void set_choice(){
 
     }
 
+    public void set_recyclerview(List<String> re_list, String type){
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView2.setLayoutManager(layoutManager2);
+        recyclerView2.setHasFixedSize(true);
+        off_select_recyclerview = new Off_select_recyclerview(getContext(), re_list,"name");
+        recyclerView2.setAdapter(off_select_recyclerview);
+    }
+
     public OfflineFragment(List<ServerData> univData) {
-        this.offunivData = univData;
+        //this.offunivData = univData;
     }
 
     @Nullable
@@ -107,14 +162,14 @@ public class OfflineFragment extends Fragment {
 
                     //아래 리사이클러뷰
                     List<String> off_univs=new ArrayList<>();
-                    for(int i=0;i<offunivData.size();i++){
-                        off_univs.add(offunivData.get(i).getName());
+                    for(int i=0;i<offData.size();i++){
+                        off_univs.add(offData.get(i).getName());
                     }
                     LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                     recyclerView2.setLayoutManager(layoutManager2);
                     recyclerView2.setHasFixedSize(true);
                     off_select_recyclerview = new Off_select_recyclerview(getContext(), off_univs,"name");
-                    recyclerView2.setAdapter(offline_recyclerview);
+                    recyclerView2.setAdapter(off_select_recyclerview);
                 } catch (Exception e){
                 Log.d("onResponse", "Error");
                 e.printStackTrace();
