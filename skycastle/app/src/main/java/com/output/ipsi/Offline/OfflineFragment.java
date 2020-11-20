@@ -1,6 +1,8 @@
 package com.output.ipsi.Offline;
 
+import android.icu.text.SimpleDateFormat;
 import android.nfc.cardemulation.OffHostApduService;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,11 +25,15 @@ import com.output.ipsi.ServerData.majors;
 import com.output.ipsi.ServerData.schdules;
 import com.output.ipsi.UnivReveiw.ReviewAdapter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +59,8 @@ public class OfflineFragment extends Fragment {
     String type="";
     ArrayList<jhs> jhs;
     ArrayList<majors> majors;
+    ArrayList<schdules> schedules;
+    ArrayList<String> selected_texts=new ArrayList<>();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void testEvent(DataEvent_offline event){
@@ -64,6 +73,7 @@ public class OfflineFragment extends Fragment {
             set_major();
         }else if(type.equals("majors")){
             major=event.eventText;
+
         }
     }
 
@@ -75,7 +85,7 @@ public class OfflineFragment extends Fragment {
                 for(int j=0;j<jhs.size();j++){
                     off_univs.add(jhs.get(j).getName());
                 }
-                set_recyclerview(off_univs,"jhs");
+                set_select_recyclerview(off_univs,"jhs");
             }
         }
     }
@@ -88,20 +98,27 @@ public class OfflineFragment extends Fragment {
                 for(int j=0;j<majors.size();j++){
                     off_univs.add(majors.get(j).getName());
                 }
-                set_recyclerview(off_univs,"majors");
+                set_select_recyclerview(off_univs,"majors");
             }
         }
     }
 
     public void set_choice(){
+        for(int i=0;i<majors.size();i++){
+            if(majors.get(i).getName().equals(major)){
+                schedules=majors.get(i).getSchedules();
+            }
+        }
+        String selected_text=univ+" "+jh+" "+major+" "+schedules.get(0).getDescription();
+        selected_texts.add(selected_text);
 
     }
 
-    public void set_recyclerview(List<String> re_list, String type){
+    public void set_select_recyclerview(List<String> re_list, String type){
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView2.setLayoutManager(layoutManager2);
         recyclerView2.setHasFixedSize(true);
-        off_select_recyclerview = new Off_select_recyclerview(getContext(), re_list,"name");
+        off_select_recyclerview = new Off_select_recyclerview(getContext(), re_list,type);
         recyclerView2.setAdapter(off_select_recyclerview);
     }
 
@@ -114,6 +131,9 @@ public class OfflineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_offline, container, false);
         setHasOptionsMenu(true);
+        try{
+            EventBus.getDefault().register(this);
+        }catch(Exception e){}
         recyclerView = (RecyclerView) rootView.findViewById(R.id.offline_re);
         recyclerView2=(RecyclerView) rootView.findViewById(R.id.choiceView);
         setRetrofit();
@@ -142,6 +162,7 @@ public class OfflineFragment extends Fragment {
 
         call.enqueue(new Callback<List<ServerData>>() {
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<List<ServerData>> call, Response<List<ServerData>> response) {
                 String test;
@@ -183,6 +204,7 @@ public class OfflineFragment extends Fragment {
     });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void RemoveDup(){
         int size = offData.size();
         for(int i=0;i<offData.size();i++) {
@@ -192,10 +214,47 @@ public class OfflineFragment extends Fragment {
                         for(int m=0;m<offData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().size();m++){
                             schdules scd=offData.get(i).getSjs().get(j).getJhs().get(k).getMajors().get(l).getSchedules().get(m);
                             String[] targetSlicing = scd.getStart_date().split("-");
-                            int offdate=0;
-                            offdate=offdate/*+Integer.parseInt(targetSlicing[0])*10000*/
-                            +Integer.parseInt(targetSlicing[1])*100+Integer.parseInt(targetSlicing[2]);
-                            set.add(offdate);
+                            String[] targetSlicing2 = scd.getEnd_date().split("-");
+                            if(scd.getStart_date().equals(scd.getEnd_date())){
+                                int offdate=0;
+                                offdate=offdate/*+Integer.parseInt(targetSlicing[0])*10000*/
+                                        +Integer.parseInt(targetSlicing[1])*100+Integer.parseInt(targetSlicing[2]);
+                                set.add(offdate);
+                            }else{
+                                String date1 = scd.getStart_date();
+                                String date2 = scd.getEnd_date();
+                                try{ // String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+                                    // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
+                                    Date FirstDate = format.parse(date1);
+                                    Date SecondDate = format.parse(date2);
+
+                                    // Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
+                                    // 연산결과 -950400000. long type 으로 return 된다.
+                                    long calDate = FirstDate.getTime() - SecondDate.getTime();
+
+                                    // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
+                                    // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+                                    long calDateDays = calDate / ( 24*60*60*1000);
+
+                                    calDateDays = Math.abs(calDateDays);
+                                    Calendar cal = Calendar.getInstance();
+                                    cal.setTime(FirstDate);
+                                    for(long n=0;n<calDateDays;n++){
+                                        cal.add(Calendar.DATE,1);
+                                        String[] targetSlicing3 = format.format(cal.getTime()).split("-");
+                                        int offdate=0;
+                                        offdate=offdate/*+Integer.parseInt(targetSlicing[0])*10000*/
+                                                +Integer.parseInt(targetSlicing3[1])*100+Integer.parseInt(targetSlicing3[2]);
+                                        set.add(offdate);
+                                    }
+                                }
+                                catch(ParseException e)
+                                {
+                                    Log.d("error","parseError");
+                                }
+                            }
+
                         }
                     }
                 }

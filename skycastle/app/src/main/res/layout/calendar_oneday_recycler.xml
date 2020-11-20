@@ -20,7 +20,7 @@
         android:layout_height="30dp"
         android:layout_marginLeft="5dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/yonsei"/>
+        android:src="@drawable/crop_pic"/>
 
     <LinearLayout
         android:layout_width="180dp"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="9dp"
-            android:text="05:20시까지 지원서 접수"
+            android:text="05:20시에 진로 상담"
             android:fontFamily="@font/nanumsquare_r"
             android:textColor="#101010"
             android:textSize="15sp" />
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="9dp"
-            android:text="00대학교 000전형 00학과"
+            android:text="5반 17번 김다희학생 학부모 면담"
             android:fontFamily="@font/nanumsquare_r"
             android:textColor="#848484"
             android:textSize="13sp" />

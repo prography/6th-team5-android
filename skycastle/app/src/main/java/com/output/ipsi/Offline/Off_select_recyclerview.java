@@ -2,6 +2,7 @@ package com.output.ipsi.Offline;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,8 @@ public class Off_select_recyclerview extends RecyclerView.Adapter<Off_select_rec
             sel_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = getAdapterPosition() ;
+                    Log.d("click","click check");
+                    int pos = getAdapterPosition();
                     DataEvent_offline dataEvent_offline=new DataEvent_offline(selectedData.get(pos));
                     dataEvent_offline.setType(type);
                     EventBus.getDefault().post(dataEvent_offline);
